@@ -406,6 +406,22 @@
       renderMsg(payload.new);
     })
     .subscribe();
+// Funkcja pobierająca historię wiadomości
+async function fetchMessages() {
+    const { data, error } = await supabaseClient
+        .from('messages')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+    if (data) {
+        // Czyścimy przykładowe wiadomości z kodu HTML, by zrobić miejsce na prawdziwe
+        chatContainer.innerHTML = ''; 
+        data.forEach(msg => renderMsg(msg));
+    }
+}
+
+// Wywołaj funkcję przy starcie strony
+fetchMessages();
 </script>
 
 </body>
