@@ -422,6 +422,70 @@ async function fetchMessages() {
 
 // Wywołaj funkcję przy starcie strony
 fetchMessages();
+
+let currentChannelId = null;
+
+// 1. Otwieranie/Zamykanie okienka
+function toggleChannelModal() {
+    const modal = document.getElementById('channelModal');
+    modal.classList.toggle('hidden');
+}
+
+// 2. Podpięcie plusa w HTML (znajdź ikonę add przy Text Channels i dopisz onclick)
+// <span class="material-symbols-outlined" onclick="toggleChannelModal()">add</span>
+
+// 3. Wysyłanie nowego kanału do bazy
+async function createChannel() {
+    const name = document.getElementById('newChannelName').value.trim();
+    if (!name) return;
+
+    const { error } = await supabaseClient
+        .from('channels')
+        .insert([{ name: name.toLowerCase().replace(/\s+/g, '-') }]);
+
+    if (!error) {
+        document.getElementById('newChannelName').value = '';
+        toggleChannelModal();
+        loadChannels(); // Odśwież listę
+    }
+}
+
+// 4. Pobieranie kanałów i wyświetlanie ich po lewej stronie
+async function loadChannels() {
+    const { data: channels } = await supabaseClient.from('channels').select('*');
+    const channelList = document.querySelector('section .space-y-1'); // Kontener kanałów w Twoim HTML
+    
+    if (channels) {
+        channelList.innerHTML = '';
+        channels.forEach(ch => {
+            const isActive = currentChannelId === ch.id;
+            channelList.innerHTML += `
+                <div onclick="switchChannel(${ch.id}, '${ch.name}')" 
+                     class="${isActive ? 'bg-[#1d2024] text-[#f9f9fd]' : 'text-[#aaabaf]'} hover:bg-[#1d2024]/50 mx-2 px-2 py-1.5 flex items-center gap-2 cursor-pointer rounded-md transition-all">
+                    <span class="material-symbols-outlined text-lg opacity-60">tag</span>
+                    <span class="font-inter text-sm font-medium">${ch.name}</span>
+                </div>`;
+        });
+        
+        // Jeśli nie wybrano kanału, ustaw pierwszy jako aktywny
+        if (!currentChannelId && channels.length > 0) {
+            switchChannel(channels[0].id, channels[0].name);
+        }
+    }
+}
+
+// 5. Przełączanie kanału
+function switchChannel(id, name) {
+    currentChannelId = id;
+    document.querySelector('header h1').innerText = name; // Zmienia nazwę na górze
+    loadChannels(); // Odświeża kolory na liście
+    loadMessages(); // Musisz zmodyfikować loadMessages, by filtrowało po channel_id
+}
+
+// Uruchom ładowanie kanałów na starcie
+loadChannels();
+
+
 </script>
 <!-- Modal do tworzenia kanału -->
 <div id="channelModal" class="fixed inset-0 bg-black/80 z-[100] hidden flex items-center justify-center">
