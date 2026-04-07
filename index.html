@@ -423,6 +423,18 @@ async function fetchMessages() {
 // Wywołaj funkcję przy starcie strony
 fetchMessages();
 </script>
+<!-- Modal do tworzenia kanału -->
+<div id="channelModal" class="fixed inset-0 bg-black/80 z-[100] hidden flex items-center justify-center">
+    <div class="bg-[#1d2024] p-6 rounded-xl w-80 border border-outline-variant/20">
+        <h3 class="text-white font-bold mb-4">Stwórz nowy kanał</h3>
+        <input id="newChannelName" type="text" placeholder="nazwa-kanału" class="w-full bg-[#0c0e11] border-none rounded-md text-sm p-2 mb-4 text-white focus:ring-1 focus:ring-primary">
+        <div class="flex justify-end gap-3">
+            <button onclick="toggleChannelModal()" class="text-sm text-gray-400 hover:text-white">Anuluj</button>
+            <button onclick="createChannel()" class="bg-primary text-white px-4 py-1.5 rounded-md text-sm font-bold">Stwórz</button>
+        </div>
+    </div>
+</div>
+
 
 </body>
 </html>
