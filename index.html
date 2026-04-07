@@ -89,6 +89,16 @@
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #46484b; border-radius: 10px; }
+#chat-window {
+    height: 400px;           /* Stała wysokość okna czatu */
+    overflow-y: auto;        /* Pojawi się pasek przewijania, gdy będzie dużo treści */
+    display: flex;           /* Pozwala lepiej układać wiadomości */
+    flex-direction: column;  /* Wiadomości jedna pod drugą */
+    border: 1px solid #444;  /* Opcjonalne obramowanie, żeby widzieć granice czatu */
+    padding: 10px;           /* Odstęp od ścianek */
+    background: #1a1a1a;     /* Tło czatu (dopasuj do swojego ciemnego motywu) */
+}
+
     </style>
 </head>
 <body class="bg-background text-on-surface flex h-screen overflow-hidden">
@@ -552,7 +562,21 @@ function switchChannel(id, name) {
 
 // Uruchom ładowanie kanałów na starcie
 loadChannels();
+<script>
+    // To jest "strażnik" przewijania
+    const observer = new MutationObserver(() => {
+        const chatWindow = document.getElementById('chat-window');
+        if (chatWindow) {
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+    });
 
+    // Zaczynamy obserwować okno czatu – gdy tylko wpadnie nowa wiadomość, przewiniemy w dół
+    const chatWin = document.getElementById('chat-window');
+    if (chatWin) {
+        observer.observe(chatWin, { childList: true });
+    }
+</script>
 
 </body>
 </html>
