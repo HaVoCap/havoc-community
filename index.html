@@ -382,18 +382,24 @@
   }
 
   // OBSŁUGA WYSYŁANIA (ENTER)
-  messageInput.addEventListener('keypress', async (e) => {
-    if (e.key === 'Enter' && messageInput.value.trim() !== "") {
-      const text = messageInput.value;
-      messageInput.value = ""; 
+  messageInput.addEventListener('keydown', async (e) => { 
+    if (e.key === 'Enter') {
+        console.log('Naciśnięto Enter!'); 
+        const text = messageInput.value.trim();
+        
+        if (text !== "") {
+            messageInput.value = ""; 
+            const { error } = await supabaseClient
+                .from('messages')
+                .insert([{ content: text, username: 'Tester' }]);
 
-      const { error } = await supabaseClient
-        .from('messages')
-        .insert([{ content: text, username: 'Tester' }]);
-
-      if (error) console.error('Błąd:', error);
+            if (error) {
+                console.error('Błąd Supabase:', error);
+                alert('Błąd bazy: ' + error.message); // To nam powie, jeśli baza odrzuca wiadomość
+            }
+        }
     }
-  });
+});
 
   // REALTIME (ODBIERANIE NA ŻYWO)
   supabaseClient
