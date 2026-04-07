@@ -343,4 +343,22 @@
 </main>
 <!-- Contextual FAB (Mobile/Tablet specific if needed, but here kept as global action) -->
 <!-- Suppressed on "Details/Chat" as per instruction but included for "Home" context if intended -->
-</body></html>
+</body>
+<script src="https://jsdelivr.net"></script>
+<script>
+  // Tu wpiszesz dane ze swojego panelu Supabase (Project Settings -> API)
+  const SUPABASE_URL = 'TWÓJ_URL_Z_SUPABASE';
+  const SUPABASE_KEY = 'TWÓJ_KLUCZ_ANON_Z_SUPABASE';
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Funkcja wysyłania wiadomości
+  async function sendMessage(text) {
+    const { data, error } = await supabase
+      .from('messages')
+      .insert([{ content: text, username: 'Tester' }]);
+    
+    if (error) console.log('Błąd:', error);
+  }
+</script>
+
+</html>
