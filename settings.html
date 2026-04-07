@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "inverse-primary": "#6834eb",
+                  "on-tertiary-container": "#59002e",
+                  "tertiary": "#ff96bb",
+                  "tertiary-fixed-dim": "#f57ca9",
+                  "secondary-fixed": "#26e6ff",
+                  "on-error-container": "#ffb2b9",
+                  "surface-container-low": "#111417",
+                  "on-tertiary-fixed": "#37001a",
+                  "on-secondary-fixed": "#003a42",
+                  "primary-dim": "#7e51ff",
+                  "on-primary-container": "#280072",
+                  "on-primary-fixed-variant": "#32008a",
+                  "on-secondary-container": "#e8fbff",
+                  "on-background": "#f9f9fd",
+                  "inverse-on-surface": "#535559",
+                  "on-surface": "#f9f9fd",
+                  "surface-container": "#171a1d",
+                  "inverse-surface": "#f9f9fd",
+                  "on-tertiary-fixed-variant": "#70103e",
+                  "tertiary-fixed": "#ff8db6",
+                  "on-secondary": "#004d57",
+                  "secondary": "#00e3fd",
+                  "surface-variant": "#23262a",
+                  "background": "#0c0e11",
+                  "on-primary": "#340090",
+                  "outline-variant": "#46484b",
+                  "secondary-dim": "#00d4ec",
+                  "on-tertiary": "#690939",
+                  "outline": "#747579",
+                  "surface-container-high": "#1d2024",
+                  "secondary-fixed-dim": "#00d7f0",
+                  "surface-container-highest": "#23262a",
+                  "surface": "#0c0e11",
+                  "error-container": "#a70138",
+                  "primary-fixed": "#a98fff",
+                  "primary-fixed-dim": "#9c7eff",
+                  "surface-tint": "#b6a0ff",
+                  "tertiary-container": "#fb81ae",
+                  "on-error": "#490013",
+                  "on-surface-variant": "#aaabaf",
+                  "error": "#ff6e84",
+                  "on-primary-fixed": "#000000",
+                  "on-secondary-fixed-variant": "#005964",
+                  "surface-bright": "#292c31",
+                  "primary-container": "#a98fff",
+                  "secondary-container": "#006875",
+                  "tertiary-dim": "#ee77a3",
+                  "error-dim": "#d73357",
+                  "surface-container-lowest": "#000000",
+                  "primary": "#b6a0ff",
+                  "surface-dim": "#0c0e11"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "fontFamily": {
+                  "headline": ["Inter"],
+                  "body": ["Inter"],
+                  "label": ["Inter"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0c0e11;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #46484b;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body overflow-hidden">
+<!-- SideNavBar: Rail (Fixed Left) -->
+<aside class="fixed left-0 top-0 h-full z-50 h-screen w-[72px] flex flex-col items-center py-4 bg-[#0c0e11]">
+<div class="mb-6">
+<span class="text-[#b6a0ff] font-black tracking-tighter text-2xl" title="HaVoC Community">HC</span>
+</div>
+<div class="flex flex-col gap-4 flex-1">
+<button class="bg-[#171a1d] text-[#aaabaf] rounded-[24px] w-12 h-12 flex items-center justify-center hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 active:scale-90 group" onclick="window.location.href='messages.html'">
+<span class="material-symbols-outlined group-hover:text-white" data-icon="home">home</span>
+</button>
+<button class="bg-[#171a1d] text-[#aaabaf] rounded-[24px] w-12 h-12 flex items-center justify-center hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 active:scale-90 group" onclick="window.location.href='discover.html'">
+<span class="material-symbols-outlined group-hover:text-white" data-icon="sports_esports">sports_esports</span>
+</button>
+<button class="bg-[#171a1d] text-[#aaabaf] rounded-[24px] w-12 h-12 flex items-center justify-center hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 active:scale-90 group" onclick="window.location.href='{{DATA:SCREEN:SCREEN_4}}'"><span class="material-symbols-outlined group-hover:text-white" data-icon="explore">explore</span></button>
+<button class="bg-[#171a1d] text-[#aaabaf] rounded-[24px] w-12 h-12 flex items-center justify-center hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 active:scale-90 group">
+<span class="material-symbols-outlined group-hover:text-white" data-icon="music_note">music_note</span>
+</button>
+</div>
+<div class="mt-auto">
+<button class="bg-gradient-to-br from-[#b6a0ff] to-[#7e51ff] rounded-[12px] text-white w-12 h-12 flex items-center justify-center scale-95 active:scale-90" onclick="window.location.href='settings.html'">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+</aside>
+<!-- SideNavBar: Standard (Sub-navigation) -->
+<nav class="fixed left-[72px] top-0 h-full z-40 h-screen w-60 flex flex-col bg-[#111417]">
+<div class="p-6">
+<h2 class="font-inter tracking-tight label-md uppercase font-bold text-[#aaabaf] text-xs">HAVOC SETTINGS</h2>
+</div>
+<div class="flex-1 px-2 space-y-1 overflow-y-auto custom-scrollbar">
+<button class="w-full flex items-center gap-3 px-3 py-2 text-[#aaabaf] hover:bg-[#1d2024]/50 rounded-md transition-colors duration-200">
+<span class="material-symbols-outlined text-sm" data-icon="account_circle">account_circle</span>
+<span class="font-inter text-sm font-medium">My Account</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 bg-[#1d2024] text-[#f9f9fd] rounded-md transition-colors duration-200">
+<span class="material-symbols-outlined text-sm" data-icon="person">person</span>
+<span class="font-inter text-sm font-medium">User Profile</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-[#aaabaf] hover:bg-[#1d2024]/50 rounded-md transition-colors duration-200">
+<span class="material-symbols-outlined text-sm" data-icon="shield">shield</span>
+<span class="font-inter text-sm font-medium">Privacy &amp; Safety</span>
+</button>
+<div class="pt-4 pb-2 px-3">
+<h3 class="font-inter tracking-tight label-md uppercase font-bold text-[#aaabaf] text-[10px] opacity-60">APP SETTINGS</h3>
+</div>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-[#aaabaf] hover:bg-[#1d2024]/50 rounded-md transition-colors duration-200">
+<span class="material-symbols-outlined text-sm" data-icon="graphic_eq">graphic_eq</span>
+<span class="font-inter text-sm font-medium">Voice &amp; Video</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-[#aaabaf] hover:bg-[#1d2024]/50 rounded-md transition-colors duration-200">
+<span class="material-symbols-outlined text-sm" data-icon="palette">palette</span>
+<span class="font-inter text-sm font-medium">Appearance</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-[#aaabaf] hover:bg-[#1d2024]/50 rounded-md transition-colors duration-200">
+<span class="material-symbols-outlined text-sm" data-icon="key">key</span>
+<span class="font-inter text-sm font-medium">Keybinds</span>
+</button>
+</div>
+<div class="p-4 mt-auto">
+<div class="bg-[#1d2024] p-3 rounded-xl border border-white/5">
+<p class="text-[10px] text-tertiary font-bold uppercase tracking-widest mb-1">UNLIMITED ACCESS</p>
+<p class="text-xs text-on-surface-variant leading-tight">All features are unlocked and free forever for the HaVoC Community.</p>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-[312px] h-screen overflow-y-auto custom-scrollbar bg-surface-container relative">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-8 h-16 sticky top-0 z-30 bg-[#111417]/80 backdrop-blur-xl shadow-[0px_1px_0px_0px_rgba(70,72,75,0.15)]">
+<h1 class="font-inter font-bold text-xl text-[#f9f9fd]">User Profile — HaVoC Community</h1>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-on-surface transition-opacity">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="px-4 py-1.5 bg-[#1d2024] rounded-lg text-sm font-semibold hover:bg-[#23262a] transition-colors border border-white/5" onclick="window.location.href='{{DATA:SCREEN:SCREEN_6}}'">
+          Esc
+        </button>
+</div>
+</header>
+<div class="max-w-4xl mx-auto px-8 py-10 space-y-12">
+<!-- Profile Branding Section (Glassmorphism Bento) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 relative group overflow-hidden rounded-xl bg-surface-container-high p-8 flex flex-col justify-end min-h-[320px]">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="abstract flowing lines of vibrant neon purple and cyan on a dark background with cinematic depth of field" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAL0JcTgi8-u4guKn54DOqgD_b_6xY7oOSnSZ9ENDNCfyJRRybVNJRGXni0NMxdsWdQoOQE6uX8o_LI3QVdlxSd5PePl4qVAzmjzIWRfnKya8OoOENEoInU35ynaM7QOS35m0KJKAOuCfnPPcxUVLsfBbNais7VIKKg_kOpI_S98LJFFI7tEknvXAIq4HskEU4ucLZM5_cVn1q8PpgDoa41U51gZ5__clAzPzXULKLhOnZlca0F0uUu3JMHhacfVqtgUktd3dIrAiI"/>
+<div class="relative z-20 flex items-end gap-6">
+<div class="relative">
+<img class="w-24 h-24 rounded-full border-4 border-surface-container-high shadow-xl" data-alt="professional headshot of a creative tech individual with soft natural lighting and warm skin tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPoypTfQa5ZIhab5rXdEmzee8x_YiV6EoyDz1__iHR7AOp_c6YHTlwk8QyY_GZBO3xJ9JSwcGf_GTepzFf2GQ9KZdL-JtW0bcbsZJLX4LekRLKvwUzw-MQNWF2LIoz7Yt92rBFIPl6_UT_EMAUEPBI2FguSyWrm8kho81YVcpPIWBMp573xNiCxSxkhU3iICFoUyfdmA9_UJPEo6H_cFQ1wMJAkOhw_TiglthqczCmdyD8s3WciyEMsRZ93r0k0C85CmMuJv0AiMc"/>
+<div class="absolute bottom-1 right-1 w-6 h-6 bg-secondary rounded-full border-4 border-surface-container-high shadow-lg"></div>
+</div>
+<div class="pb-2">
+<h2 class="text-3xl font-black tracking-tight text-white">Alex Vanguard</h2>
+<p class="text-on-surface-variant flex items-center gap-2">
+                @vanguard_dev
+                <span class="px-2 py-0.5 bg-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-tighter">HaVoC Member</span>
+</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-high rounded-xl p-6 flex flex-col justify-between border border-white/5">
+<div>
+<h3 class="text-xs font-bold uppercase text-on-surface-variant tracking-widest mb-4">HaVoC Account Status</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="check_circle">check_circle</span>
+<span class="text-sm">Verified Member</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="bolt">bolt</span>
+<span class="text-sm">Server Booster</span>
+</div>
+</div>
+</div>
+<button class="w-full py-3 rounded-lg bg-gradient-to-br from-primary to-primary-dim text-white font-bold text-sm shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+            Edit Banner
+          </button>
+</div>
+</section>
+<!-- Settings Grid -->
+<section class="space-y-8">
+<div>
+<h3 class="text-xs font-bold uppercase text-on-surface-variant tracking-widest mb-6">Profile Customization</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Bento Item 1: About Me -->
+<div class="bg-surface-container-low p-6 rounded-xl border border-white/5 space-y-4">
+<div class="flex items-center justify-between">
+<label class="text-sm font-semibold text-on-surface">About Me</label>
+<span class="text-[10px] text-on-surface-variant bg-surface-container px-2 py-1 rounded">190/300</span>
+</div>
+<textarea class="w-full bg-surface-container-lowest border-none rounded-lg text-sm text-on-surface-variant focus:ring-1 focus:ring-secondary/40 placeholder:text-outline-variant h-32 resize-none" placeholder="Write something about yourself..."></textarea>
+</div>
+<!-- Bento Item 2: Free Perks Promo -->
+<div class="bg-gradient-to-br from-tertiary/10 to-transparent p-6 rounded-xl border border-tertiary/20 flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<h4 class="text-lg font-bold text-tertiary">Unlimited Emojis</h4>
+<p class="text-xs text-on-surface-variant mt-1">Upload and use custom emojis across all servers.</p>
+</div>
+<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="sentiment_very_satisfied">sentiment_very_satisfied</span>
+</div>
+<div class="flex items-center gap-2 mt-6">
+<span class="px-3 py-1 bg-tertiary text-on-tertiary-container text-[10px] font-black rounded-full uppercase">Always Free</span>
+<p class="text-[10px] text-on-surface-variant">No subscription required.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: High Quality Content -->
+<div class="bg-[#171a1d] rounded-2xl p-8 relative overflow-hidden border border-white/5">
+<div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+<div>
+<h3 class="text-2xl font-black text-white leading-tight">Cinema-Grade Streaming</h3>
+<p class="text-on-surface-variant mt-3 leading-relaxed">
+                Experience crystal clear 4K @ 60FPS streaming for all users. We believe high-quality communication should never be behind a paywall in HaVoC.
+              </p>
+<div class="flex flex-wrap gap-4 mt-6">
+<div class="flex items-center gap-2 bg-surface-container-high px-3 py-2 rounded-lg">
+<span class="material-symbols-outlined text-secondary" data-icon="4k">4k</span>
+<span class="text-xs font-bold">Ultra HD</span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-high px-3 py-2 rounded-lg">
+<span class="material-symbols-outlined text-secondary" data-icon="high_quality">high_quality</span>
+<span class="text-xs font-bold">60 FPS</span>
+</div>
+</div>
+</div>
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-secondary to-primary rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+<div class="relative bg-black rounded-xl overflow-hidden aspect-video">
+<img class="w-full h-full object-cover" data-alt="cinematic shot of high-end gaming pc setup with purple led lighting and dual monitors showing creative software" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqpqCinRApPIBSayj6DvXiYH11D5Av-qzmJintetmrN0ENMXqw0WBNL0wx7SanWxlliYkBSh-c7615gLHBqGL106-7xyM3_Pr498FCtJDVk193ZrufTbkoBUrqH2rE4bJpMWfJL-IfAm-vJ_2hKo-Dew69HBCIsRrIsXRu8ZUz8MDHkW7kFnfEjOXUOHT-5VBk0jNVjpp_XNz38X48TN58N9xLIvQyvX9BbEUn4VUcPMEHq6IKnWLdHaKcdGhX0ELqNV_KPw0RnWc"/>
+<div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/20 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-6xl text-white opacity-80" data-icon="play_circle">play_circle</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Interactive Toggles -->
+<div>
+<h3 class="text-xs font-bold uppercase text-on-surface-variant tracking-widest mb-6">Interaction Settings</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl hover:bg-surface-container transition-colors border border-white/5">
+<div class="flex items-center gap-4">
+<div class="p-2 bg-surface-container-high rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="message">message</span>
+</div>
+<div>
+<p class="text-sm font-semibold">Direct Messages</p>
+<p class="text-xs text-on-surface-variant">Allow messages from HaVoC members</p>
+</div>
+</div>
+<button class="w-12 h-6 bg-secondary rounded-full relative transition-colors">
+<div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+</button>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl hover:bg-surface-container transition-colors border border-white/5">
+<div class="flex items-center gap-4">
+<div class="p-2 bg-surface-container-high rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="visibility">visibility</span>
+</div>
+<div>
+<p class="text-sm font-semibold">Display Activity Status</p>
+<p class="text-xs text-on-surface-variant">Show what game or app you're currently using</p>
+</div>
+</div>
+<button class="w-12 h-6 bg-surface-container-highest rounded-full relative transition-colors">
+<div class="absolute left-1 top-1 w-4 h-4 bg-outline-variant rounded-full"></div>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer Info -->
+<footer class="pt-10 pb-20 border-t border-outline-variant/10 text-center">
+<p class="text-[10px] text-on-surface-variant uppercase tracking-[0.2em] font-medium">HaVoC Community v4.2.0-Alpha</p>
+<p class="text-xs text-on-surface-variant/40 mt-2">All rights reserved. Digital Lounge Environment.</p>
+</footer>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HaVoC Community | Discover Communities</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-primary": "#6834eb",
+                    "on-tertiary-container": "#59002e",
+                    "tertiary": "#ff96bb",
+                    "tertiary-fixed-dim": "#f57ca9",
+                    "secondary-fixed": "#26e6ff",
+                    "on-error-container": "#ffb2b9",
+                    "surface-container-low": "#111417",
+                    "on-tertiary-fixed": "#37001a",
+                    "on-secondary-fixed": "#003a42",
+                    "primary-dim": "#7e51ff",
+                    "on-primary-container": "#280072",
+                    "on-primary-fixed-variant": "#32008a",
+                    "on-secondary-container": "#e8fbff",
+                    "on-background": "#f9f9fd",
+                    "inverse-on-surface": "#535559",
+                    "on-surface": "#f9f9fd",
+                    "surface-container": "#171a1d",
+                    "inverse-surface": "#f9f9fd",
+                    "on-tertiary-fixed-variant": "#70103e",
+                    "tertiary-fixed": "#ff8db6",
+                    "on-secondary": "#004d57",
+                    "secondary": "#00e3fd",
+                    "surface-variant": "#23262a",
+                    "background": "#0c0e11",
+                    "on-primary": "#340090",
+                    "outline-variant": "#46484b",
+                    "secondary-dim": "#00d4ec",
+                    "on-tertiary": "#690939",
+                    "outline": "#747579",
+                    "surface-container-high": "#1d2024",
+                    "secondary-fixed-dim": "#00d7f0",
+                    "surface-container-highest": "#23262a",
+                    "surface": "#0c0e11",
+                    "error-container": "#a70138",
+                    "primary-fixed": "#a98fff",
+                    "primary-fixed-dim": "#9c7eff",
+                    "surface-tint": "#b6a0ff",
+                    "tertiary-container": "#fb81ae",
+                    "on-error": "#490013",
+                    "on-surface-variant": "#aaabaf",
+                    "error": "#ff6e84",
+                    "on-primary-fixed": "#000000",
+                    "on-secondary-fixed-variant": "#005964",
+                    "surface-bright": "#292c31",
+                    "primary-container": "#a98fff",
+                    "secondary-container": "#006875",
+                    "tertiary-dim": "#ee77a3",
+                    "error-dim": "#d73357",
+                    "surface-container-lowest": "#000000",
+                    "primary": "#b6a0ff",
+                    "surface-dim": "#0c0e11"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary/30">
+<!-- Rail Navigation (SideNavBar) -->
+<aside class="fixed left-0 top-0 h-full z-50 h-screen w-[72px] flex flex-col items-center py-4 bg-[#0c0e11] no-border">
+<div class="mb-6">
+<span class="text-[#b6a0ff] font-black tracking-tighter text-2xl">HC</span>
+</div>
+<nav class="flex flex-col gap-4">
+<button class="w-12 h-12 flex items-center justify-center bg-[#171a1d] text-[#aaabaf] rounded-[24px] hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 scale-95 active:scale-90 group" onclick="window.location.href='messages.html'">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+</button>
+<!-- Active State: Gaming/Discovery -->
+<button class="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[#b6a0ff] to-[#7e51ff] rounded-[12px] text-white transition-all duration-300 scale-95 active:scale-90" onclick="window.location.href='discover.html'">
+<span class="material-symbols-outlined" data-icon="sports_esports">sports_esports</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center bg-[#171a1d] text-[#aaabaf] rounded-[24px] hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 scale-95 active:scale-90 group" onclick="window.location.href='index.html'">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center bg-[#171a1d] text-[#aaabaf] rounded-[24px] hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 scale-95 active:scale-90 group">
+<span class="material-symbols-outlined" data-icon="music_note">music_note</span>
+</button>
+</nav>
+<div class="mt-auto flex flex-col gap-4">
+<button class="w-12 h-12 flex items-center justify-center bg-[#171a1d] text-[#aaabaf] rounded-[24px] hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 scale-95 active:scale-90 group" onclick="window.location.href='settings.html'">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+</aside>
+<!-- Standard Side Bar (SideNavBar Type: Standard) -->
+<aside class="fixed left-[72px] top-0 h-full z-40 h-screen w-60 flex flex-col bg-[#111417] no-border">
+<header class="p-4 pt-6">
+<h2 class="font-inter tracking-tight label-md uppercase font-bold text-[#aaabaf] text-xs">HaVoC COMMUNITY</h2>
+<p class="text-[10px] text-secondary font-medium mt-1 uppercase tracking-widest">42 Online</p>
+</header>
+<nav class="flex-1 mt-2">
+<div class="px-2 mb-4">
+<div class="bg-[#1d2024] text-[#f9f9fd] rounded-md px-3 py-2 flex items-center gap-3 transition-colors duration-200 cursor-pointer">
+<span class="material-symbols-outlined text-sm" data-icon="explore">explore</span>
+<span class="text-sm font-medium">Discover</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="text-[#aaabaf] hover:text-[#f9f9fd] hover:bg-[#1d2024]/50 mx-2 px-3 py-2 rounded-md flex items-center gap-3 transition-colors duration-200 cursor-pointer">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+<span class="text-sm font-medium">Trending</span>
+</div>
+<div class="text-[#aaabaf] hover:text-[#f9f9fd] hover:bg-[#1d2024]/50 mx-2 px-3 py-2 rounded-md flex items-center gap-3 transition-colors duration-200 cursor-pointer">
+<span class="material-symbols-outlined text-sm" data-icon="new_releases">new_releases</span>
+<span class="text-sm font-medium">Recent</span>
+</div>
+</div>
+</nav>
+<footer class="mt-auto bg-[#0c0e11]/50 p-4 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<img alt="Profile" class="w-8 h-8 rounded-full border border-outline-variant/20" data-alt="close-up portrait of a professional man with friendly expression in soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcc_1YN2ailRKg4Pi9HQu1CapPwViN7uONfDhNPansMClNGJoiIvCCj0YMCHzIz9Cn-IodOFY-ZbvjECYa-nJ55oBZEPomvRrOoJz0x5pJk7J2F-2scdZKxpl9N8xIjhwPn1nSCSCn_bDaGASwJeYvjOQ4MSILyAEOGYzOJ_4oU3tlbFC_jbX78fXtk4rfe7V9DeIa7pPAZuXrrs5P8Ys8A_cBIQCQLzWLDpQLM8DvQKuY_iabNHkqc5mo1nb9K9tOI-rJ6xO43bc"/>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-on-surface">NeonUser</span>
+<span class="text-[10px] text-on-surface-variant">#1337</span>
+</div>
+</div>
+<div class="flex gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-lg cursor-pointer hover:text-on-surface" data-icon="mic">mic</span>
+<span class="material-symbols-outlined text-lg cursor-pointer hover:text-on-surface" data-icon="headset">headset</span>
+</div>
+</footer>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-[312px] min-h-screen flex flex-col relative">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-30 h-12 w-full flex items-center justify-between px-6 bg-[#111417]/80 backdrop-blur-xl no-border shadow-[0px_1px_0px_0px_rgba(70,72,75,0.15)]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="explore">explore</span>
+<h1 class="font-inter font-bold text-lg text-[#f9f9fd]">Discover</h1>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex items-center gap-4 text-sm font-bold">
+<a class="text-[#b6a0ff]" href="#">Featured</a>
+<a class="text-[#aaabaf] hover:text-[#f9f9fd] transition-opacity" href="#">Communities</a>
+<a class="text-[#aaabaf] hover:text-[#f9f9fd] transition-opacity" href="#">Creators</a>
+</nav>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-on-surface transition-opacity" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-on-surface transition-opacity" data-icon="push_pin">push_pin</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-on-surface transition-opacity" data-icon="people_alt">people_alt</span>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="p-8 pb-4">
+<div class="relative overflow-hidden rounded-xl h-[320px] group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="abstract digital landscape with glowing purple and cyan geometric structures in a dark void" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCAPWH1nfsH4L4Zn2HnfTIXbz-X1FA7iMHigqMkDXKHXYAIabkDYfeDZ0eYEn_yVpvs9DwY23l1-Ti0v7jA04pYtZ8fL1zdpizL2xxpbY8MkiMXemH-eRKAnSGwPuNl0acmI9eCzixbLdzIJztGl8Yxu4LIwp1giFlanrMRH0fRfPjMsvh28ZY0k8cP2jkHR9WZx8dbNphmoRFDDRMr1IL5o-P_z7KCRkkhSQH3sAn7NBJ63NoHt7dCuvgibhI-Vik0PkhZJ4DaOe0')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+<div class="absolute inset-0 flex flex-col justify-end p-10">
+<h2 class="text-4xl md:text-5xl font-black tracking-tight text-white mb-4 drop-shadow-lg">Find your next home</h2>
+<p class="text-on-surface-variant max-w-xl text-lg mb-8">Join millions of people who have found their niche. From gaming guilds to code retreats, the substrate is waiting for you.</p>
+<!-- Search Bar Section -->
+<div class="relative max-w-2xl w-full">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
+</div>
+<input class="w-full bg-surface-container-lowest border-none rounded-lg py-4 pl-12 pr-4 text-on-surface placeholder:text-on-surface-variant focus:ring-1 focus:ring-secondary/40 transition-shadow shadow-xl" placeholder="Explore servers (e.g. 'Cyberpunk', 'React Devs', 'Lo-Fi Music')" type="text"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Category Filters -->
+<section class="px-8 py-4 overflow-x-auto hide-scrollbar flex gap-3 whitespace-nowrap">
+<button class="px-5 py-2 bg-gradient-to-br from-[#b6a0ff] to-[#7e51ff] text-white rounded-full text-sm font-bold shadow-lg shadow-primary/20">All Categories</button>
+<button class="px-5 py-2 bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest rounded-full text-sm font-bold transition-colors">Gaming</button>
+<button class="px-5 py-2 bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest rounded-full text-sm font-bold transition-colors">Music</button>
+<button class="px-5 py-2 bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest rounded-full text-sm font-bold transition-colors">Education</button>
+<button class="px-5 py-2 bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest rounded-full text-sm font-bold transition-colors">Science &amp; Tech</button>
+<button class="px-5 py-2 bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest rounded-full text-sm font-bold transition-colors">Entertainment</button>
+<button class="px-5 py-2 bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest rounded-full text-sm font-bold transition-colors">Creative</button>
+</section>
+<!-- Discovery Grid -->
+<section class="px-8 py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Featured Card 1 -->
+<div class="group relative bg-surface-container hover:bg-surface-container-high rounded-xl overflow-hidden transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" onclick="window.location.href='{{DATA:SCREEN:SCREEN_6}}'">
+<div class="h-40 bg-cover bg-center" data-alt="overhead view of a professional gaming setup with neon led lighting and multiple monitors" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDWAh2q5u6WK-5z_RAnELoDum2FSU4wfslsHbMYYZUoTaTMX16WdknRwtt-bQqHcQNqfLeDuWJlEgKtz4uMlPhDUX9nG9pQJEvr7B3N23lcj7sZqaWmc0f_UNEGkydNXQjf74RfWIU3cGVtvQnK9LGEb1Mw6X8XUsajzvUEC5VLU4qk4bXk7WuyLP9l_UBB6C77W5nBHNEqmAIv6jgOGS6zwCWOQGQ_T3OORXtiHOSMauDNvrdpqda4GrGHx5ugL_-KvOYSM9gLq94')"></div>
+<div class="p-5 relative">
+<div class="absolute -top-10 left-5">
+<div class="w-16 h-16 rounded-2xl bg-surface-container-highest border-4 border-surface-container overflow-hidden">
+<img alt="Logo" data-alt="retro tech icon with a stylized computer chip and glowing circuit patterns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT9iVM3DEoU3P6B85L_O9KxrV058SaYZz5HzvoUcjm-lagRr9Fpm8BoxLNxAq4N-NvXnMu_bcqWFZ3YtiNLVjR49-RM20PU4sIiWsDPUrW9UI8VSkCzOVSA6Lj_TMrEwTNwCMdr4EpcfwqOR2vTmRrwF5l9mIwlj7RJsp22P8tipV3zY9974Ln4TwBtGHwzD1ofYHQ6xlOAmnIrekL36beVuzr8pAEs6PImgKdftJMiRyEF9n2nj8kKB5VYM6eH1a5kvpGisAU948"/>
+</div>
+</div>
+<div class="mt-8">
+<div class="flex items-center gap-1 mb-1">
+<h3 class="text-lg font-bold text-on-surface">Nexus Gaming</h3>
+<span class="material-symbols-outlined text-secondary text-base" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<p class="text-sm text-on-surface-variant line-clamp-2 mb-4">The ultimate hub for competitive eSports and casual gaming. Join our weekly tournaments and find teammates.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-3 text-[11px] font-bold text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span> 12.4k Online</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-outline"></span> 85.2k Members</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Featured Card 2 -->
+<div class="group relative bg-surface-container hover:bg-surface-container-high rounded-xl overflow-hidden transition-all duration-300 transform hover:-translate-y-1">
+<div class="h-40 bg-cover bg-center" data-alt="vibrant music festival stage with colorful lasers and silhouettes of a dancing crowd at night" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDM6v_F0Xt4xpOieMiWR85b4lANU2Gz4MFBjoNqN3MENpHbrEclkcqNzapvLfI96h1bhXmVGs1foJKV69W7GZY_NNVgz-Sy0td76jvLP3DE9dtrE0hTSSHz6RV2qiX7WRBrfB0fzd39KeuNGT4CBP6tt5IU5nouAviN8nct9KThBmMYes88jshCPV8JgukxUX2LYM4J9-ZRHfyUSi2cZnYAd1DTV-Kkfs2gDTf_0mjKBOMZ0F7g7IG_2wBglSz1PfneHN6Z6dFEgG8')"></div>
+<div class="p-5 relative">
+<div class="absolute -top-10 left-5">
+<div class="w-16 h-16 rounded-2xl bg-surface-container-highest border-4 border-surface-container overflow-hidden">
+<img alt="Logo" data-alt="minimalist musical note icon glowing with neon pink against a dark backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIhRck88qLp130hDNH97pRl8IwH6PbpcBXK0QtWKM19QgyZYns2CiMAIUNTr1NeNEiTbHGojG_HoZf2dYxI7dpbY7YOhUDosVLQS_bD-BZ3NxJH8KCHzL1UdgJqShJVl3S9A4NDm-PSPjYYBtqoLdKQ30SeTfOZkbYfrQ0I9IcFEi4Sj0lrcNeneb8xvB8ai_EVxFWXIT5WZiF7ww1XT0Js0dD5JjdFhsXD8HuF3ECkyq5d3yhs0J8ktQ0NOK1iazdsZ4ObKiyVeY"/>
+</div>
+</div>
+<div class="mt-8">
+<div class="flex items-center gap-1 mb-1">
+<h3 class="text-lg font-bold text-on-surface">Vibe Station</h3>
+</div>
+<p class="text-sm text-on-surface-variant line-clamp-2 mb-4">24/7 Lo-fi beats, production workshops, and community listening parties. Your sonic sanctuary.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-3 text-[11px] font-bold text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span> 4.1k Online</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-outline"></span> 32.8k Members</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Featured Card 3 -->
+<div class="group relative bg-surface-container hover:bg-surface-container-high rounded-xl overflow-hidden transition-all duration-300 transform hover:-translate-y-1">
+<div class="h-40 bg-cover bg-center" data-alt="matrix-style digital rain of falling green characters on a deep black background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAM0UnThqZl46pa8EXX_s6zNUTo9bEB4An-ZiLH0ZxOzXxmOIwW-ela_uDsbIsZMiAXDIrrlZJCN6s0FRutyz1OuT5Qlr6N7R0iYmCR8cwMueFs7bHCdweIYki_h9u0jAm72gmts7KYEwYttw98WIteE_ZSkBhIwhFFE5pMjBDzcqJZc4K2i6Pra2NXx4NlzV0CF6FG2WutLBhghZ5AFgGu7Go8OvdTknvv4M2XxRZlGGYCDfCnJcS8TnondR6CtDxRuck6kugtCLU')"></div>
+<div class="p-5 relative">
+<div class="absolute -top-10 left-5">
+<div class="w-16 h-16 rounded-2xl bg-surface-container-highest border-4 border-surface-container overflow-hidden">
+<img alt="Logo" data-alt="close-up of clean programming code on a monitor with syntax highlighting in a dark theme" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrYAUPj0xzWdD3QED6_29aXdSTOYd33jXMM6eXplFguwoG1Mf8P9RlKyoLvn4X7iSRMClPNmA_boP1ZK4hmcBbqGInvY2JypY_S9zbYazppfEuVt-KB2YJo5myfXzJ3ttzv6QryZ9bkAFhECcYbUd37MuJh4V9YrdtpUOQ_OTM_QUtcCAEW8R5B2Xei14qmCHhBnSzc3iMKf3P62TgfvG3YSklvBL6jq8fB9LY7No4QlGASoeKgVfXyBlBrzTLjQneC-4D7WrRXPY"/>
+</div>
+</div>
+<div class="mt-8">
+<div class="flex items-center gap-1 mb-1">
+<h3 class="text-lg font-bold text-on-surface">The Forge (Devs)</h3>
+<span class="material-symbols-outlined text-secondary text-base" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<p class="text-sm text-on-surface-variant line-clamp-2 mb-4">A community of builders, founders, and open-source enthusiasts. From Python to Rust, we build together.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-3 text-[11px] font-bold text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span> 8.9k Online</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-outline"></span> 112k Members</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group relative bg-surface-container hover:bg-surface-container-high rounded-xl overflow-hidden transition-all duration-300 transform hover:-translate-y-1">
+<div class="h-40 bg-cover bg-center" data-alt="detailed close-up of a high-tech robotic eye with glowing blue optical sensors" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD1Z5AnWahMCEBmDIZtqyr3_IDW879YiSLFpGSRCdNAgM06kZT1BsBHC2N4x0w5rkNScdFkrfq0Q2j8QtkzTbP-id0RQspZ5Ej2gDNiyC6bnBG0MnBeiRdNdGjocOCNgcWxywP0SubPb5-5qEG6OQZcVNhyal1zoPpPtvgf91gx0yknsPjytj_IvkMvdYuDLSIoSvgWdpTDbW9YQKWY4cUHBMDHqJcnq_6pusWCcj-Yc12A8w5Kc8FED1LxSTlbfE7QB2g6v653pDQ')"></div>
+<div class="p-5 relative">
+<div class="absolute -top-10 left-5">
+<div class="w-16 h-16 rounded-2xl bg-surface-container-highest border-4 border-surface-container overflow-hidden">
+<img alt="Logo" data-alt="sleek modern ai robot head icon on a dark minimalist background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAqSFwDBhMTbWJN4ZSnGbBlJzXkaIrnE4f7bANG91lSBx9KFEuCcmQu6itGacm-HUz2m-L4Dz3DSCNjsiGuHA2pac9bat3c5rG0KE_nTqeWuR_Y4yvZL5emUICyK_7fuEPbXHCXnQScmQ2uIzpCFHxu1dX6ZmU1VK1hpsek2w2Nb4CY1SM7u2MZrolIXupbSHyvQsxvgs6_g76aPwLj_8gufFyN7D5T3AgGG_tyH3VOi6FXTAMnPs4Xj1_KpLV4KGVC481nxZDWbc"/>
+</div>
+</div>
+<div class="mt-8">
+<div class="flex items-center gap-1 mb-1">
+<h3 class="text-lg font-bold text-on-surface">AI Collective</h3>
+</div>
+<p class="text-sm text-on-surface-variant line-clamp-2 mb-4">Exploring the frontier of Generative AI. Prompt engineering, LLMs, and future-casting discussions.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-3 text-[11px] font-bold text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span> 2.2k Online</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-outline"></span> 15.4k Members</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="group relative bg-surface-container hover:bg-surface-container-high rounded-xl overflow-hidden transition-all duration-300 transform hover:-translate-y-1">
+<div class="h-40 bg-cover bg-center" data-alt="crowded neon-lit street in a futuristic cyberpunk city with holographic advertisements" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBb4GjMTSmhgw2c3Z2YghQrnhmgNbq4j6_du2yZKhDLWM09lmwOkeq1F9tzkSOrFFivV_Z-nRZtejIa5hXFc_DIO1N8kpxgrxnWEj_6000OSzIqP7Z6L5n_o59mpMzvmX6JYQmxXkf6Tk4MrpGdsqh0DkNdPDQX9NZs7T5HX0iJHfkhBEZbVDvAHdOVABW5_J63B6JD72z5yAdcw4ZXTHVAkmrjdchra0ssVJjBGyOOOS0CN6m3lp-kikepVenuy1XMyKRAI29XYXc')"></div>
+<div class="p-5 relative">
+<div class="absolute -top-10 left-5">
+<div class="w-16 h-16 rounded-2xl bg-surface-container-highest border-4 border-surface-container overflow-hidden">
+<img alt="Logo" data-alt="abstract geometric shape glowing with neon cyan and magenta colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDY5c63k2wsHEUOkequC0kvXmezFEeUGjY0Rw6fXlotV449DUHz9M7-zN9gIMkmbkeJpqlRiJvNMbQtAvKWXgyIYWKlft56Oseo_jSv_U_wXqUr65R0DoBYPQOlwNkGV2sTIwDCNIMXuOBUZdDxfv0euFUu0wHXJLnkpTE0P3yu9jvAaoWIw3hTQ00W-hzY9U9dmpAVsh9wHOxf8SAOMNM7_vSL46m1M9IjM_10n5W5RQRquCn8m2HJXL-PyqXl5UvC7wZ0AjPsH5w"/>
+</div>
+</div>
+<div class="mt-8">
+<div class="flex items-center gap-1 mb-1">
+<h3 class="text-lg font-bold text-on-surface">Cyberpunk Roleplay</h3>
+</div>
+<p class="text-sm text-on-surface-variant line-clamp-2 mb-4">Deep immersion roleplay set in the year 2099. Create your character and navigate the neon underworld.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-3 text-[11px] font-bold text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span> 1.5k Online</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-outline"></span> 12.1k Members</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 6 (Bento-like variation for "Join more") -->
+<div class="group relative bg-gradient-to-br from-surface-container to-[#171a1d] rounded-xl overflow-hidden p-8 flex flex-col justify-center items-center text-center">
+<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="add_circle">add_circle</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface mb-2">Can't find your tribe?</h3>
+<p class="text-sm text-on-surface-variant mb-6">Create your own space on the HaVoC Community and invite your friends. It's free and always will be.</p>
+<button class="bg-surface-container-highest hover:bg-surface-bright text-primary font-bold px-6 py-2 rounded-lg transition-colors border border-primary/20">Create Community</button>
+</div>
+</section>
+<!-- Newsletter / Community Updates -->
+<section class="px-8 pb-12">
+<div class="bg-surface-container-low rounded-xl p-8 flex flex-col md:flex-row items-center gap-8 border border-outline-variant/10">
+<div class="flex-1">
+<h3 class="text-2xl font-bold text-on-surface mb-2">Get the weekly substrate digest</h3>
+<p class="text-on-surface-variant">Hand-picked communities, trending events, and platform updates delivered to your inbox.</p>
+</div>
+<div class="flex w-full md:w-auto gap-2">
+<input class="bg-surface-container-lowest border-none rounded-lg px-4 py-2 text-on-surface flex-1 md:w-64 focus:ring-1 focus:ring-primary/40" placeholder="email@example.com" type="email"/>
+<button class="bg-primary text-on-primary font-bold px-6 py-2 rounded-lg whitespace-nowrap">Sign Up</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Contextual FAB (Search/Add) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-gradient-to-br from-secondary to-secondary-dim text-on-secondary rounded-xl shadow-2xl shadow-secondary/30 flex items-center justify-center z-50 transition-transform active:scale-90 group">
+<span class="material-symbols-outlined text-2xl group-hover:rotate-90 transition-transform duration-300" data-icon="add">add</span>
+</button>
+</body></html>

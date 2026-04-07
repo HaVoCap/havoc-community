@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HaVoC Community | Communication Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#6834eb",
+                        "on-tertiary-container": "#59002e",
+                        "tertiary": "#ff96bb",
+                        "tertiary-fixed-dim": "#f57ca9",
+                        "secondary-fixed": "#26e6ff",
+                        "on-error-container": "#ffb2b9",
+                        "surface-container-low": "#111417",
+                        "on-tertiary-fixed": "#37001a",
+                        "on-secondary-fixed": "#003a42",
+                        "primary-dim": "#7e51ff",
+                        "on-primary-container": "#280072",
+                        "on-primary-fixed-variant": "#32008a",
+                        "on-secondary-container": "#e8fbff",
+                        "on-background": "#f9f9fd",
+                        "inverse-on-surface": "#535559",
+                        "on-surface": "#f9f9fd",
+                        "surface-container": "#171a1d",
+                        "inverse-surface": "#f9f9fd",
+                        "on-tertiary-fixed-variant": "#70103e",
+                        "tertiary-fixed": "#ff8db6",
+                        "on-secondary": "#004d57",
+                        "secondary": "#00e3fd",
+                        "surface-variant": "#23262a",
+                        "background": "#0c0e11",
+                        "on-primary": "#340090",
+                        "outline-variant": "#46484b",
+                        "secondary-dim": "#00d4ec",
+                        "on-tertiary": "#690939",
+                        "outline": "#747579",
+                        "surface-container-high": "#1d2024",
+                        "secondary-fixed-dim": "#00d7f0",
+                        "surface-container-highest": "#23262a",
+                        "surface": "#0c0e11",
+                        "error-container": "#a70138",
+                        "primary-fixed": "#a98fff",
+                        "primary-fixed-dim": "#9c7eff",
+                        "surface-tint": "#b6a0ff",
+                        "tertiary-container": "#fb81ae",
+                        "on-error": "#490013",
+                        "on-surface-variant": "#aaabaf",
+                        "error": "#ff6e84",
+                        "on-primary-fixed": "#000000",
+                        "on-secondary-fixed-variant": "#005964",
+                        "surface-bright": "#292c31",
+                        "primary-container": "#a98fff",
+                        "secondary-container": "#006875",
+                        "tertiary-dim": "#ee77a3",
+                        "error-dim": "#d73357",
+                        "surface-container-lowest": "#000000",
+                        "primary": "#b6a0ff",
+                        "surface-dim": "#0c0e11"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #46484b; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface flex h-screen overflow-hidden">
+<!-- SideNavBar Rail (Leftmost Server Column) -->
+<nav class="fixed left-0 top-0 h-full z-50 h-screen w-[72px] flex flex-col items-center py-4 bg-[#0c0e11] no-border bg-[#0c0e11] flat no shadows">
+<div class="mb-4">
+<div class="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[#b6a0ff] to-[#7e51ff] rounded-[12px] text-white transition-all duration-300 scale-95 active:scale-90 cursor-pointer" onclick="window.location.href='index.html'">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+</div>
+</div>
+<div class="w-8 h-[2px] bg-surface-variant rounded-full mb-4"></div>
+<div class="space-y-3 flex flex-col items-center overflow-y-auto pb-4 scrollbar-hide">
+<!-- Active State Navigation -->
+<div class="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[#b6a0ff] to-[#7e51ff] rounded-[12px] text-white transition-all duration-300 scale-95 active:scale-90 cursor-pointer group" onclick="window.location.href='discover.html'">
+<span class="material-symbols-outlined" data-icon="sports_esports">sports_esports</span>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-[#171a1d] text-[#aaabaf] rounded-[24px] hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 scale-95 active:scale-90 cursor-pointer group">
+<span class="material-symbols-outlined" data-icon="music_note">music_note</span>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-[#171a1d] text-[#aaabaf] rounded-[24px] hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 scale-95 active:scale-90 cursor-pointer group">
+<img alt="Server 1" class="w-full h-full rounded-inherit object-cover" data-alt="abstract circular logo with vibrant purple and cyan cosmic swirls on a black background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTH-B7R-c4xQSDUbDYLxnt_2kebxvA5PL_BFhm2u4lndT0oK56uh5DI3d2ERUIP11IVsT4WVhzlhZOZUhyogPxb3nWK63YR3Cuft7R8gsSjfQxSMbTfu9H0EWAEGA42kC79kWbSg9kAwzZCUEkfR0c_Oz6sVy4Xi8HJhHwGmMMidwLKQV12vEYXcZXZM10joc3zpn_pt_HP2Gc2C9eH6CDCNG3-B_FudJFNQdZdeL05cmSoyp3lruaXFoMTQZ7HPsWHFsfehv9lm4"/>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-[#171a1d] text-[#aaabaf] rounded-[24px] hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 scale-95 active:scale-90 cursor-pointer group" onclick="window.location.href='{{DATA:SCREEN:SCREEN_4}}'">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</div>
+</div>
+<div class="mt-auto flex flex-col items-center gap-3">
+<div class="w-12 h-12 flex items-center justify-center bg-[#171a1d] text-[#aaabaf] rounded-[24px] hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 scale-95 active:scale-90 cursor-pointer" onclick="window.location.href='settings.html'">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</div>
+</div>
+</nav>
+<!-- SideNavBar Standard (Channel List) -->
+<aside class="fixed left-[72px] top-0 h-full z-40 h-screen w-60 flex flex-col bg-[#111417] no-border bg-[#111417] flat">
+<header class="h-12 px-4 flex items-center justify-between shadow-[0px_1px_0px_0px_rgba(70,72,75,0.15)] bg-[#111417]/80 backdrop-blur-xl">
+<h2 class="font-inter font-bold text-lg text-[#f9f9fd] tracking-tight uppercase">HaVoC Community</h2>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer text-sm">expand_more</span>
+</header>
+<div class="flex-1 overflow-y-auto pt-4 space-y-6">
+<!-- Channel Categories -->
+<section>
+<div class="px-4 mb-2 flex items-center justify-between group">
+<span class="font-inter tracking-tight label-md uppercase font-bold text-[#aaabaf] text-[11px] tracking-[0.05em]">Text Channels</span>
+<span class="material-symbols-outlined text-[#aaabaf] text-xs cursor-pointer opacity-0 group-hover:opacity-100">add</span>
+</div>
+<div class="space-y-1">
+<div class="bg-[#1d2024] text-[#f9f9fd] rounded-md mx-2 px-2 py-1.5 flex items-center gap-2 cursor-pointer transition-colors duration-200" onclick="window.location.href='{{DATA:SCREEN:SCREEN_6}}'">
+<span class="material-symbols-outlined text-lg opacity-60" data-icon="tag">tag</span>
+<span class="font-inter text-sm font-medium">general</span>
+</div>
+<div class="text-[#aaabaf] hover:text-[#f9f9fd] hover:bg-[#1d2024]/50 mx-2 px-2 py-1.5 flex items-center gap-2 cursor-pointer transition-colors duration-200" onclick="window.location.href='{{DATA:SCREEN:SCREEN_6}}'">
+<span class="material-symbols-outlined text-lg opacity-60" data-icon="campaign">campaign</span>
+<span class="font-inter text-sm font-medium">announcements</span>
+</div>
+<div class="text-[#aaabaf] hover:text-[#f9f9fd] hover:bg-[#1d2024]/50 mx-2 px-2 py-1.5 flex items-center gap-2 cursor-pointer transition-colors duration-200" onclick="window.location.href='{{DATA:SCREEN:SCREEN_6}}'">
+<span class="material-symbols-outlined text-lg opacity-60" data-icon="folder_open">docs</span>
+<span class="font-inter text-sm font-medium">resources</span>
+</div>
+</div>
+</section>
+<section>
+<div class="px-4 mb-2 flex items-center justify-between group">
+<span class="font-inter tracking-tight label-md uppercase font-bold text-[#aaabaf] text-[11px] tracking-[0.05em]">Voice Channels</span>
+<span class="material-symbols-outlined text-[#aaabaf] text-xs cursor-pointer opacity-0 group-hover:opacity-100">add</span>
+</div>
+<div class="space-y-1">
+<div class="text-[#aaabaf] hover:text-[#f9f9fd] hover:bg-[#1d2024]/50 mx-2 px-2 py-1.5 flex items-center gap-2 cursor-pointer transition-colors duration-200">
+<span class="material-symbols-outlined text-lg opacity-60" data-icon="graphic_eq">graphic_eq</span>
+<span class="font-inter text-sm font-medium">voice-lounge</span>
+</div>
+</div>
+</section>
+</div>
+<!-- User Profile Footer -->
+<footer class="mt-auto p-2 bg-[#0c0e11]/50 flex flex-col gap-2">
+<div class="flex items-center gap-2 px-2 py-2 rounded-lg bg-surface-container-high relative overflow-hidden">
+<div class="relative">
+<img alt="User Profile" class="w-8 h-8 rounded-full border-2 border-[#b6a0ff]" data-alt="professional portrait of a creative individual with glasses smiling, soft studio lighting on dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM3G9_hDAicm4fPQjsr82nzLeOdtCvAd4r3GkMRz4srFGJEEArKES03J5CXkDOZT9bOErxMMTPa3j47RaIynZZ14gQUDxvdbLMNOXl_M1fnaln4ZjheqquR8omtkgj8DkrxV-W0wQUu2uQXnatdw4OoEcxl3-k44EUN4Iv9-1HK15nnUGKAHc0I99_qgL9WLS-SCSjsqcU4UajLoaeo1wgDy_FdSPuQrgRRoWskN32CnBw0CgO_7mQjoew6sCinhnHA21fVO8Dius"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-secondary border-2 border-[#111417] rounded-full"></div>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="text-sm font-bold text-on-surface truncate">Ether_Pulse</p>
+<p class="text-[10px] text-secondary-dim font-black uppercase tracking-widest">100% Free</p>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-on-surface-variant text-lg cursor-pointer hover:text-on-surface transition-colors" data-icon="mic">mic</span>
+<span class="material-symbols-outlined text-on-surface-variant text-lg cursor-pointer hover:text-on-surface transition-colors" data-icon="headset">headset</span>
+</div>
+</div>
+</footer>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-[312px] flex flex-col bg-surface-container overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between px-4 sticky top-0 z-30 h-12 w-full bg-[#111417]/80 backdrop-blur-xl no-border shadow-sm shadow-[0px_1px_0px_0px_rgba(70,72,75,0.15)]">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#aaabaf] text-xl" data-icon="tag">tag</span>
+<h1 class="font-inter font-bold text-lg text-[#f9f9fd]">general</h1>
+<div class="h-6 w-[1px] bg-outline-variant mx-2 opacity-30"></div>
+<div class="hidden md:flex gap-4">
+<a class="text-[#b6a0ff] font-medium text-sm transition-opacity hover:text-[#f9f9fd]" href="#">Threads</a>
+<a class="text-[#aaabaf] font-medium text-sm transition-opacity hover:text-[#f9f9fd]" href="#">Pins</a>
+<a class="text-[#aaabaf] font-medium text-sm transition-opacity hover:text-[#f9f9fd]" href="#">Mentions</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex items-center bg-surface-container-lowest rounded-lg px-2 py-1 w-48 transition-all focus-within:w-64 border border-transparent focus-within:border-secondary/40">
+<input class="bg-transparent border-none focus:ring-0 text-xs w-full text-on-surface-variant placeholder:text-outline" placeholder="Search..." type="text"/>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">search</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-on-surface cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-on-surface cursor-pointer" data-icon="push_pin">push_pin</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-on-surface cursor-pointer" data-icon="people_alt">people_alt</span>
+</div>
+</div>
+</header>
+<!-- Chat Container -->
+<div class="flex-1 flex min-w-0">
+<!-- Messages Section -->
+<div class="flex-1 flex flex-col relative">
+<div class="flex-1 overflow-y-auto px-6 py-6 space-y-8 scrollbar-hide">
+<!-- Message Group 1 -->
+<div class="flex items-start gap-4 group hover:bg-surface-container-high/30 -mx-4 px-4 py-2 rounded-xl transition-all duration-300">
+<img alt="User 2" class="w-10 h-10 rounded-full object-cover shrink-0" data-alt="close-up of a young man with a slight smile and modern hairstyle, cinematic soft lighting on a cool background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCp_UCt8REajCNCZYJaIFkFluS_-csnZ2jUb-ZMPsqi9DTgA083p_oPWqwvd1MTCyfDuXSUOvBmrIHAL1AQ4J7XADi25yu38RnE8rbdLYlduFSVQWeA9t40aYYsZMyS3WaLW_5FT56gbb1SlwhbimeSBR39kikWRsVk7XZO-F-z8Oef_-GDJqJH6CuuGVndsbVhpnZzk0w4gTuQy8hGpkmavDXzJJMLwui0_iyUjmWarhGwpSnNnQ9is55zsTbU9fgCSFmt6Rywu1o"/>
+<div class="flex-1">
+<div class="flex items-baseline gap-2 mb-1">
+<span class="font-bold text-primary hover:underline cursor-pointer">Neon_Void</span>
+<span class="text-[10px] text-on-surface-variant">Today at 10:42 AM</span>
+</div>
+<p class="text-on-surface leading-relaxed text-[15px]">Yo! Has anyone checked out the new substrate shaders? The electric void effect is looking absolutely crisp today. ⚡</p>
+<div class="flex flex-wrap gap-2 mt-3">
+<div class="bg-secondary-container/40 text-on-secondary-container px-2 py-0.5 rounded-full text-xs flex items-center gap-1 cursor-pointer hover:bg-secondary-container/60 transition-colors">
+<span>🔥</span>
+<span class="font-bold">12</span>
+</div>
+<div class="bg-secondary-container/20 text-on-secondary-container px-2 py-0.5 rounded-full text-xs flex items-center gap-1 cursor-pointer hover:bg-secondary-container/60 transition-colors border border-secondary/10">
+<span>🚀</span>
+<span class="font-bold">4</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Message Group 2 (Bento Style Content) -->
+<div class="flex items-start gap-4 group hover:bg-surface-container-high/30 -mx-4 px-4 py-2 rounded-xl transition-all duration-300">
+<img alt="User 3" class="w-10 h-10 rounded-full object-cover shrink-0" data-alt="side profile of a woman with vibrant blue hair looking thoughtfully into distance, neon lights reflecting on skin" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbmBut-PFKqhyvIPySt9bm9XYuXcJTwX7yH6j8HaA0WnOPqxwsOW3g90cQL-asZulVZLr5VdI9VBw4Qbh9fh52PgCGucfF6qqRGITStISLoZwV6prhZO9MTc5WHO-VMo2ClTUC7cHHRFBN1vaxbOx2iReW80v61Pht0_Ic0NHYufybu-h2flMIv8fTwsChtA-IBZ30x_EMzRmOvQl7fyAaNvSn4I2oIRx8KSLVKZ_SPCTP08zBORkTpbYoLNQMJaSuDNDqwm9GCiA"/>
+<div class="flex-1">
+<div class="flex items-baseline gap-2 mb-1">
+<span class="font-bold text-tertiary hover:underline cursor-pointer">Cyber_Silk</span>
+<span class="text-[10px] text-on-surface-variant">Today at 10:45 AM</span>
+</div>
+<p class="text-on-surface leading-relaxed text-[15px]">Check out this preview of the community landing page I'm building. No borders, just pure atmospheric depth.</p>
+<div class="mt-4 grid grid-cols-2 gap-3 max-w-2xl">
+<div class="aspect-video bg-surface-container-highest rounded-xl overflow-hidden group/image relative">
+<img alt="Design 1" class="w-full h-full object-cover" data-alt="minimalist abstract digital art with smooth gradients of deep violet and bright cyan with organic flowing shapes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_PtgfbPylMumu6VYbBnSpIbs8QUjMsHo_YClPA79nASQqL19lymvM1pt4sMh7p_ZxG22dBUkonM2H81luO5P9Dgp7JYgqkDV70HVXKt6gAgghZEQVKfxniYfSCBmEjIEqnHyPs0g15igal8KQd_9ksyhvAudIBzltzOwZKV7Be6rDXwaM8IJISHOPFqnmATlSIzJMciMeePY6E4BqoLd45zIQ70FkHe_LzuadqXGzyHsAzFFT1mnZK8USftzMte5zxZKgueaa1VA"/>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover/image:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-3xl">open_in_full</span>
+</div>
+</div>
+<div class="aspect-video bg-surface-container-highest rounded-xl overflow-hidden group/image relative">
+<img alt="Design 2" class="w-full h-full object-cover" data-alt="macro photograph of fiber optic cables glowing with intense magenta and blue light in a dark environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgaG7kMC7g0o0w_BFVZrI91auHQcixTAJGGwNtktzkTeN9dWe3fYoUn3FmSAgHl03w9glR3jgeRmeEqK5XDeIRwRO2CJzgN9AfLPyb9GcVYI6OrY89Q4q-LyZfqWOgKdA3sb_uH40jcDAbY87YZdyzvK3Rg4xZbl9nLEpJL0ZI0dXT16rrAfV6CDdzvCYOWxmV5GgTf_FUi_1p1RXeOd_PMOk4UlGUWpDKvtfIuWzAwy-E63VpgDElSITIt0u-5yf-cstJUzhfhro"/>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover/image:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-3xl">open_in_full</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Message Group 3 -->
+<div class="flex items-start gap-4 group hover:bg-surface-container-high/30 -mx-4 px-4 py-2 rounded-xl transition-all duration-300">
+<div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-on-secondary font-black shrink-0">S</div>
+<div class="flex-1">
+<div class="flex items-baseline gap-2 mb-1">
+<span class="font-bold text-on-surface hover:underline cursor-pointer">Static_Link</span>
+<span class="text-[10px] text-on-surface-variant">Today at 10:50 AM</span>
+</div>
+<p class="text-on-surface leading-relaxed text-[15px]">That glassmorphism layout is actually insane. How's the performance on mobile?</p>
+</div>
+</div>
+</div>
+<!-- Chat Input Area -->
+<div class="px-4 pb-6 mt-auto">
+<div class="bg-surface-container-lowest rounded-xl flex items-center p-2 border border-outline-variant/10 focus-within:border-secondary/40 shadow-2xl">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-sm py-2 text-on-surface placeholder:text-on-surface-variant/50" placeholder="Message #general" type="text"/>
+<div class="flex items-center gap-2 px-2">
+<button class="p-1 text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">gif_box</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-tertiary transition-colors">
+<span class="material-symbols-outlined">mood</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Online Members Side Panel -->
+<aside class="hidden xl:flex w-64 flex-col bg-[#0c0e11] px-4 pt-6 overflow-y-auto">
+<div class="mb-6">
+<h3 class="font-inter tracking-tight label-md uppercase font-bold text-[#aaabaf] text-[11px] tracking-[0.05em] mb-4">Moderators — 2</h3>
+<div class="space-y-3">
+<div class="flex items-center gap-3 group cursor-pointer opacity-80 hover:opacity-100 transition-opacity">
+<div class="relative">
+<img alt="Mod 1" class="w-8 h-8 rounded-full border border-primary/40" data-alt="portrait of a man with focused expression, wearing headphones, dim cool lighting suggesting high-tech environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEM3M6QWjo7rJcY15iKX36ATLjTOJAQHqpCE3x6cLoeJFpKuECwyWnou-HD1iYtRNnEYpTMKVXpTdGAYur_CX_XHe30A0sdVnZHvlPYUBwHxP0dHtbFDjPlow4BA2HRQgsBRKlx8iD-cuzrN_RtVwJKbNZBz3IQmaFkIcUn292X9r-mFFUtG2kzoke5IZe7AOGRfT_R5FVsNLNv9O0uvisbnlA87b8FfC2z3_cS5vaDjmj1Pz1l56dZxZNs1yg9hUcDTM_3C-II0M"/>
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-secondary border-2 border-background rounded-full"></div>
+</div>
+<div>
+<p class="text-sm font-bold text-primary leading-none">Apex_Dev</p>
+<p class="text-[10px] text-on-surface-variant mt-0.5">Coding late...</p>
+</div>
+</div>
+<div class="flex items-center gap-3 group cursor-pointer opacity-80 hover:opacity-100 transition-opacity">
+<div class="relative">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-[10px] font-black text-white">NV</div>
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-secondary border-2 border-background rounded-full"></div>
+</div>
+<div>
+<p class="text-sm font-bold text-primary leading-none">Neon_Void</p>
+<p class="text-[10px] text-on-surface-variant mt-0.5">Substrate active</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mb-6">
+<h3 class="font-inter tracking-tight label-md uppercase font-bold text-[#aaabaf] text-[11px] tracking-[0.05em] mb-4">Architects — 5</h3>
+<div class="space-y-3">
+<div class="flex items-center gap-3 group cursor-pointer opacity-80 hover:opacity-100 transition-opacity">
+<div class="relative">
+<img alt="User 4" class="w-8 h-8 rounded-full" data-alt="outdoor natural portrait of a person with a warm friendly expression, soft sunlight filtering through leaves in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOVQtqEeV3s3UfwNQDMKCeHBckihILaCxXdRdJU9ty3ThkGAmkTHu0yfh1HqvulVVrW3AFP4koyGr1t4txYZ_7J228yZ_WjwEbRZ_IetXyZ_A4cmfGjbZWoSFGFFQvSwlmXXjMHjLvJmN8E-sqoj_tomnx06SyvKEMbnbSaFwiI5U5YO77aWyoJJpkfZDGGVYRUuVRJx4-90SCgiCdpO8awUIdx7sAapXIhjcj6r37w_RgvZEa-_JVvqo27N_KBYMl0cDQuz4w2v8"/>
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-secondary border-2 border-background rounded-full"></div>
+</div>
+<div>
+<p class="text-sm font-bold text-tertiary leading-none">Cyber_Silk</p>
+</div>
+</div>
+<!-- Idle state -->
+<div class="flex items-center gap-3 group cursor-pointer opacity-60 hover:opacity-100 transition-opacity">
+<div class="relative">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-[10px] font-black text-[#aaabaf]">SL</div>
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-tertiary-container border-2 border-background rounded-full"></div>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface leading-none">Static_Link</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Contextual FAB (Mobile/Tablet specific if needed, but here kept as global action) -->
+<!-- Suppressed on "Details/Chat" as per instruction but included for "Home" context if intended -->
+</body></html>
