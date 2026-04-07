@@ -98,6 +98,12 @@
     padding: 10px;           /* Odstęp od ścianek */
     background: #1a1a1a;     /* Tło czatu (dopasuj do swojego ciemnego motywu) */
 }
+#chatContainer {
+    height: calc(100vh - 160px); /* Blokuje wysokość okna wiadomości */
+    overflow-y: auto !important;  /* Wymusza pasek przewijania */
+    display: flex;
+    flex-direction: column;
+}
 
     </style>
 </head>
@@ -213,7 +219,7 @@
 <div class="flex-1 flex min-w-0">
 <!-- Messages Section -->
 <div class="flex-1 flex flex-col relative">
-<div id="chatContainer" class="flex-1 overflow-y-auto px-6 py-6 space-y-8 scrollbar-hide">
+<div id="chatContainer" class="flex-1 overflow-y-auto px-6 py-6 space-y-8">
 <!-- Message Group 1 -->
 <div class="flex items-start gap-4 group hover:bg-surface-container-high/30 -mx-4 px-4 py-2 rounded-xl transition-all duration-300">
 <img alt="User 2" class="w-10 h-10 rounded-full object-cover shrink-0" data-alt="close-up of a young man with a slight smile and modern hairstyle, cinematic soft lighting on a cool background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCp_UCt8REajCNCZYJaIFkFluS_-csnZ2jUb-ZMPsqi9DTgA083p_oPWqwvd1MTCyfDuXSUOvBmrIHAL1AQ4J7XADi25yu38RnE8rbdLYlduFSVQWeA9t40aYYsZMyS3WaLW_5FT56gbb1SlwhbimeSBR39kikWRsVk7XZO-F-z8Oef_-GDJqJH6CuuGVndsbVhpnZzk0w4gTuQy8hGpkmavDXzJJMLwui0_iyUjmWarhGwpSnNnQ9is55zsTbU9fgCSFmt6Rywu1o"/>
