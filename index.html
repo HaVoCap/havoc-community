@@ -1,178 +1,584 @@
 <!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Havoc Community</title>
-    <script src="https://tailwindcss.com"></script>
-    <script src="https://unpkg.com"></script>
-    <style>
-        /* Styl dla paska przewijania (scrollbar) */
-        #chat-window::-webkit-scrollbar {
-            width: 8px;
-        }
-        #chat-window::-webkit-scrollbar-track {
-            background: #1f2937;
-        }
-        #chat-window::-webkit-scrollbar-thumb {
-            background: #4b5563;
-            border-radius: 4px;
-        }
-        #chat-window::-webkit-scrollbar-thumb:hover {
-            background: #6b7280;
-        }
 
-        /* KLUCZOWA POPRAWKA: Stała wysokość i przewijanie */
-        #chat-window {
-            height: calc(100vh - 180px); /* Dopasowuje wysokość do ekranu */
-            overflow-y: auto;           /* Włącza przewijanie */
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 20px;
-            scroll-behavior: smooth;    /* Płynne przewijanie */
-        }
-
-        .message {
-            background: #374151;
-            padding: 10px;
-            border-radius: 8px;
-            max-width: fit-content;
-        }
-    </style>
-</head>
-<body class="bg-gray-900 text-white overflow-hidden">
-
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <div class="w-64 bg-gray-800 p-4 flex flex-col border-r border-gray-700">
-            <h1 class="text-xl font-bold mb-4">HAVOC COMMUNITY</h1>
-            <div id="channel-list" class="flex-1 overflow-y-auto space-y-2">
-                <!-- Kanały pojawią się tutaj -->
-            </div>
-            <button onclick="document.getElementById('channelModal').classList.toggle('hidden')" class="mt-4 bg-blue-600 p-2 rounded hover:bg-blue-700">
-                + Dodaj kanał
-            </button>
-        </div>
-
-        <!-- Main Chat Area -->
-        <div class="flex-1 flex flex-col">
-            <header class="p-4 border-b border-gray-700 bg-gray-800">
-                <h2 id="current-channel-name" class="text-lg font-semibold">Wybierz kanał</h2>
-            </header>
-
-            <!-- OKNO CZATU -->
-            <div id="chat-window">
-                <div class="text-gray-500">Wybierz kanał z listy po lewej, aby zacząć rozmawiać.</div>
-            </div>
-
-            <!-- INPUT AREA -->
-            <div class="p-4 bg-gray-800 border-t border-gray-700">
-                <div class="flex gap-2">
-                    <input type="text" id="message-input" placeholder="Napisz wiadomość..." class="flex-1 bg-gray-700 p-2 rounded outline-none focus:ring-2 focus:ring-blue-500">
-                    <button id="send-button" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">Wyślij</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal dodawania kanału -->
-    <div id="channelModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div class="bg-gray-800 p-6 rounded-lg w-96">
-            <h2 class="text-lg mb-4">Nowy kanał</h2>
-            <input type="text" id="newChannelName" class="w-full bg-gray-700 p-2 rounded mb-4" placeholder="Nazwa kanału">
-            <div class="flex justify-end gap-2">
-                <button onclick="document.getElementById('channelModal').classList.add('hidden')" class="p-2">Anuluj</button>
-                <button id="create-channel-btn" class="bg-blue-600 p-2 rounded">Stwórz</button>
-            </div>
-        </div>
-    </div>
-
-    <script type="module">
-        // KONFIGURACJA SUPABASE (Wklej tutaj swoje dane)
-        const supabaseUrl = '***TWOJE_URL***';
-        const supabaseKey = '***TWÓJ_KLUCZ***';
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-        let currentChannelId = null;
-        const chatWindow = document.getElementById('chat-window');
-        const messageInput = document.getElementById('message-input');
-
-        // FUNKCJA PRZEWIJANIA NA DÓŁ
-        function scrollToBottom() {
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        }
-
-        // Pobieranie kanałów
-        async function loadChannels() {
-            const { data: channels } = await supabase.from('channels').select('*');
-            const list = document.getElementById('channel-list');
-            list.innerHTML = '';
-            channels.forEach(ch => {
-                const btn = document.createElement('button');
-                btn.className = "w-full text-left p-2 hover:bg-gray-700 rounded transition";
-                btn.textContent = "# " + ch.name;
-                btn.onclick = () => switchChannel(ch.id, ch.name);
-                list.appendChild(btn);
-            });
-        }
-
-        // Zmiana kanału
-        async function switchChannel(id, name) {
-            currentChannelId = id;
-            document.getElementById('current-channel-name').textContent = "# " + name;
-            loadMessages(id);
-        }
-
-        // Pobieranie wiadomości
-        async function loadMessages(channelId) {
-            const { data: messages } = await supabase
-                .from('messages')
-                .select('*')
-                .eq('channel_id', channelId)
-                .order('created_at', { ascending: true });
-
-            chatWindow.innerHTML = '';
-            messages.forEach(msg => {
-                const div = document.createElement('div');
-                div.className = "message";
-                div.textContent = msg.text;
-                chatWindow.appendChild(div);
-            });
-            scrollToBottom(); // Przewiń po załadowaniu
-        }
-
-        // Wysyłanie wiadomości
-        async function sendMessage() {
-            const text = messageInput.value.trim();
-            if (!text || !currentChannelId) return;
-
-            const { error } = await supabase
-                .from('messages')
-                .insert();
-
-            if (!error) {
-                messageInput.value = '';
-                loadMessages(currentChannelId); // Odśwież i przewiń
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HaVoC Community | Communication Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#6834eb",
+                        "on-tertiary-container": "#59002e",
+                        "tertiary": "#ff96bb",
+                        "tertiary-fixed-dim": "#f57ca9",
+                        "secondary-fixed": "#26e6ff",
+                        "on-error-container": "#ffb2b9",
+                        "surface-container-low": "#111417",
+                        "on-tertiary-fixed": "#37001a",
+                        "on-secondary-fixed": "#003a42",
+                        "primary-dim": "#7e51ff",
+                        "on-primary-container": "#280072",
+                        "on-primary-fixed-variant": "#32008a",
+                        "on-secondary-container": "#e8fbff",
+                        "on-background": "#f9f9fd",
+                        "inverse-on-surface": "#535559",
+                        "on-surface": "#f9f9fd",
+                        "surface-container": "#171a1d",
+                        "inverse-surface": "#f9f9fd",
+                        "on-tertiary-fixed-variant": "#70103e",
+                        "tertiary-fixed": "#ff8db6",
+                        "on-secondary": "#004d57",
+                        "secondary": "#00e3fd",
+                        "surface-variant": "#23262a",
+                        "background": "#0c0e11",
+                        "on-primary": "#340090",
+                        "outline-variant": "#46484b",
+                        "secondary-dim": "#00d4ec",
+                        "on-tertiary": "#690939",
+                        "outline": "#747579",
+                        "surface-container-high": "#1d2024",
+                        "secondary-fixed-dim": "#00d7f0",
+                        "surface-container-highest": "#23262a",
+                        "surface": "#0c0e11",
+                        "error-container": "#a70138",
+                        "primary-fixed": "#a98fff",
+                        "primary-fixed-dim": "#9c7eff",
+                        "surface-tint": "#b6a0ff",
+                        "tertiary-container": "#fb81ae",
+                        "on-error": "#490013",
+                        "on-surface-variant": "#aaabaf",
+                        "error": "#ff6e84",
+                        "on-primary-fixed": "#000000",
+                        "on-secondary-fixed-variant": "#005964",
+                        "surface-bright": "#292c31",
+                        "primary-container": "#a98fff",
+                        "secondary-container": "#006875",
+                        "tertiary-dim": "#ee77a3",
+                        "error-dim": "#d73357",
+                        "surface-container-lowest": "#000000",
+                        "primary": "#b6a0ff",
+                        "surface-dim": "#0c0e11"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
             }
         }
-
-        // Nasłuchiwanie na przycisk i Enter
-        document.getElementById('send-button').onclick = sendMessage;
-        messageInput.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
-
-        // Start aplikacji
-        loadChannels();
-
-        // Realtime (opcjonalnie - automatyczne przewijanie przy nowych wiadomościach)
-        supabase
-            .channel('public:messages')
-            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
-                if (payload.new.channel_id === currentChannelId) {
-                    loadMessages(currentChannelId);
-                }
-            })
-            .subscribe();
     </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #46484b; border-radius: 10px; }
+#chat-window {
+    height: 400px;           /* Stała wysokość okna czatu */
+    overflow-y: auto;        /* Pojawi się pasek przewijania, gdy będzie dużo treści */
+    display: flex;           /* Pozwala lepiej układać wiadomości */
+    flex-direction: column;  /* Wiadomości jedna pod drugą */
+    border: 1px solid #444;  /* Opcjonalne obramowanie, żeby widzieć granice czatu */
+    padding: 10px;           /* Odstęp od ścianek */
+    background: #1a1a1a;     /* Tło czatu (dopasuj do swojego ciemnego motywu) */
+}
+
+    </style>
+</head>
+<body class="bg-background text-on-surface flex h-screen overflow-hidden">
+<!-- SideNavBar Rail (Leftmost Server Column) -->
+<nav class="fixed left-0 top-0 h-full z-50 h-screen w-[72px] flex flex-col items-center py-4 bg-[#0c0e11] no-border bg-[#0c0e11] flat no shadows">
+<div class="mb-4">
+<div class="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[#b6a0ff] to-[#7e51ff] rounded-[12px] text-white transition-all duration-300 scale-95 active:scale-90 cursor-pointer" onclick="window.location.href='index.html'">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+</div>
+</div>
+<div class="w-8 h-[2px] bg-surface-variant rounded-full mb-4"></div>
+<div class="space-y-3 flex flex-col items-center overflow-y-auto pb-4 scrollbar-hide">
+<!-- Active State Navigation -->
+<div class="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[#b6a0ff] to-[#7e51ff] rounded-[12px] text-white transition-all duration-300 scale-95 active:scale-90 cursor-pointer group" onclick="window.location.href='discover.html'">
+<span class="material-symbols-outlined" data-icon="sports_esports">sports_esports</span>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-[#171a1d] text-[#aaabaf] rounded-[24px] hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 scale-95 active:scale-90 cursor-pointer group">
+<span class="material-symbols-outlined" data-icon="music_note">music_note</span>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-[#171a1d] text-[#aaabaf] rounded-[24px] hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 scale-95 active:scale-90 cursor-pointer group">
+<img alt="Server 1" class="w-full h-full rounded-inherit object-cover" data-alt="abstract circular logo with vibrant purple and cyan cosmic swirls on a black background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTH-B7R-c4xQSDUbDYLxnt_2kebxvA5PL_BFhm2u4lndT0oK56uh5DI3d2ERUIP11IVsT4WVhzlhZOZUhyogPxb3nWK63YR3Cuft7R8gsSjfQxSMbTfu9H0EWAEGA42kC79kWbSg9kAwzZCUEkfR0c_Oz6sVy4Xi8HJhHwGmMMidwLKQV12vEYXcZXZM10joc3zpn_pt_HP2Gc2C9eH6CDCNG3-B_FudJFNQdZdeL05cmSoyp3lruaXFoMTQZ7HPsWHFsfehv9lm4"/>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-[#171a1d] text-[#aaabaf] rounded-[24px] hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 scale-95 active:scale-90 cursor-pointer group" onclick="window.location.href='{{DATA:SCREEN:SCREEN_4}}'">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</div>
+</div>
+<div class="mt-auto flex flex-col items-center gap-3">
+<div class="w-12 h-12 flex items-center justify-center bg-[#171a1d] text-[#aaabaf] rounded-[24px] hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 scale-95 active:scale-90 cursor-pointer" onclick="window.location.href='settings.html'">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</div>
+</div>
+</nav>
+<!-- SideNavBar Standard (Channel List) -->
+<aside class="fixed left-[72px] top-0 h-full z-40 h-screen w-60 flex flex-col bg-[#111417] no-border bg-[#111417] flat">
+<header class="h-12 px-4 flex items-center justify-between shadow-[0px_1px_0px_0px_rgba(70,72,75,0.15)] bg-[#111417]/80 backdrop-blur-xl">
+<h2 class="font-inter font-bold text-lg text-[#f9f9fd] tracking-tight uppercase">HaVoC Community</h2>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer text-sm">expand_more</span>
+</header>
+<div class="flex-1 overflow-y-auto pt-4 space-y-6">
+<!-- Channel Categories -->
+<!-- Channel Categories -->
+<section>
+    <div class="px-4 mb-2 flex items-center justify-between group">
+        <span class="font-inter tracking-tight label-md uppercase font-bold text-[#aaabaf] text-[11px] tracking-[0.05em]">Text Channels</span>
+        <!-- Ikona plusa, która teraz otwiera okienko -->
+        <span class="material-symbols-outlined text-[#aaabaf] text-xs cursor-pointer opacity-100" onclick="toggleChannelModal()">add</span>
+    </div>
+    
+    <!-- Pusty kontener, który skrypt wypełni kanałami z bazy -->
+    <div id="channelList" class="space-y-1">
+        <!-- Tutaj nic nie wpisuj, zajmie się tym JavaScript -->
+    </div>
+</section>
+<section>
+<div class="px-4 mb-2 flex items-center justify-between group">
+<span class="font-inter tracking-tight label-md uppercase font-bold text-[#aaabaf] text-[11px] tracking-[0.05em]">Voice Channels</span>
+<span class="material-symbols-outlined text-[#aaabaf] text-xs cursor-pointer opacity-0 group-hover:opacity-100">add</span>
+</div>
+<div class="space-y-1">
+<div class="text-[#aaabaf] hover:text-[#f9f9fd] hover:bg-[#1d2024]/50 mx-2 px-2 py-1.5 flex items-center gap-2 cursor-pointer transition-colors duration-200">
+<span class="material-symbols-outlined text-lg opacity-60" data-icon="graphic_eq">graphic_eq</span>
+<span class="font-inter text-sm font-medium">voice-lounge</span>
+</div>
+</div>
+</section>
+</div>
+<!-- User Profile Footer -->
+<footer class="mt-auto p-2 bg-[#0c0e11]/50 flex flex-col gap-2">
+<div class="flex items-center gap-2 px-2 py-2 rounded-lg bg-surface-container-high relative overflow-hidden">
+<div class="relative">
+<img alt="User Profile" class="w-8 h-8 rounded-full border-2 border-[#b6a0ff]" data-alt="professional portrait of a creative individual with glasses smiling, soft studio lighting on dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM3G9_hDAicm4fPQjsr82nzLeOdtCvAd4r3GkMRz4srFGJEEArKES03J5CXkDOZT9bOErxMMTPa3j47RaIynZZ14gQUDxvdbLMNOXl_M1fnaln4ZjheqquR8omtkgj8DkrxV-W0wQUu2uQXnatdw4OoEcxl3-k44EUN4Iv9-1HK15nnUGKAHc0I99_qgL9WLS-SCSjsqcU4UajLoaeo1wgDy_FdSPuQrgRRoWskN32CnBw0CgO_7mQjoew6sCinhnHA21fVO8Dius"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-secondary border-2 border-[#111417] rounded-full"></div>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="text-sm font-bold text-on-surface truncate">Ether_Pulse</p>
+<p class="text-[10px] text-secondary-dim font-black uppercase tracking-widest">100% Free</p>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-on-surface-variant text-lg cursor-pointer hover:text-on-surface transition-colors" data-icon="mic">mic</span>
+<span class="material-symbols-outlined text-on-surface-variant text-lg cursor-pointer hover:text-on-surface transition-colors" data-icon="headset">headset</span>
+</div>
+</div>
+</footer>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-[312px] flex flex-col bg-surface-container overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between px-4 sticky top-0 z-30 h-12 w-full bg-[#111417]/80 backdrop-blur-xl no-border shadow-sm shadow-[0px_1px_0px_0px_rgba(70,72,75,0.15)]">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#aaabaf] text-xl" data-icon="tag">tag</span>
+<h1 class="font-inter font-bold text-lg text-[#f9f9fd]">general</h1>
+<div class="h-6 w-[1px] bg-outline-variant mx-2 opacity-30"></div>
+<div class="hidden md:flex gap-4">
+<a class="text-[#b6a0ff] font-medium text-sm transition-opacity hover:text-[#f9f9fd]" href="#">Threads</a>
+<a class="text-[#aaabaf] font-medium text-sm transition-opacity hover:text-[#f9f9fd]" href="#">Pins</a>
+<a class="text-[#aaabaf] font-medium text-sm transition-opacity hover:text-[#f9f9fd]" href="#">Mentions</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex items-center bg-surface-container-lowest rounded-lg px-2 py-1 w-48 transition-all focus-within:w-64 border border-transparent focus-within:border-secondary/40">
+<input class="bg-transparent border-none focus:ring-0 text-xs w-full text-on-surface-variant placeholder:text-outline" placeholder="Search..." type="text"/>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">search</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-on-surface cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-on-surface cursor-pointer" data-icon="push_pin">push_pin</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-on-surface cursor-pointer" data-icon="people_alt">people_alt</span>
+</div>
+</div>
+</header>
+<!-- Chat Container -->
+<div class="flex-1 flex min-w-0">
+<!-- Messages Section -->
+<div class="flex-1 flex flex-col relative">
+<div id="chatContainer" class="flex-1 overflow-y-auto px-6 py-6 space-y-8 scrollbar-hide">
+<!-- Message Group 1 -->
+<div class="flex items-start gap-4 group hover:bg-surface-container-high/30 -mx-4 px-4 py-2 rounded-xl transition-all duration-300">
+<img alt="User 2" class="w-10 h-10 rounded-full object-cover shrink-0" data-alt="close-up of a young man with a slight smile and modern hairstyle, cinematic soft lighting on a cool background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCp_UCt8REajCNCZYJaIFkFluS_-csnZ2jUb-ZMPsqi9DTgA083p_oPWqwvd1MTCyfDuXSUOvBmrIHAL1AQ4J7XADi25yu38RnE8rbdLYlduFSVQWeA9t40aYYsZMyS3WaLW_5FT56gbb1SlwhbimeSBR39kikWRsVk7XZO-F-z8Oef_-GDJqJH6CuuGVndsbVhpnZzk0w4gTuQy8hGpkmavDXzJJMLwui0_iyUjmWarhGwpSnNnQ9is55zsTbU9fgCSFmt6Rywu1o"/>
+<div class="flex-1">
+<div class="flex items-baseline gap-2 mb-1">
+<span class="font-bold text-primary hover:underline cursor-pointer">Neon_Void</span>
+<span class="text-[10px] text-on-surface-variant">Today at 10:42 AM</span>
+</div>
+<p class="text-on-surface leading-relaxed text-[15px]">Yo! Has anyone checked out the new substrate shaders? The electric void effect is looking absolutely crisp today. ⚡</p>
+<div class="flex flex-wrap gap-2 mt-3">
+<div class="bg-secondary-container/40 text-on-secondary-container px-2 py-0.5 rounded-full text-xs flex items-center gap-1 cursor-pointer hover:bg-secondary-container/60 transition-colors">
+<span>🔥</span>
+<span class="font-bold">12</span>
+</div>
+<div class="bg-secondary-container/20 text-on-secondary-container px-2 py-0.5 rounded-full text-xs flex items-center gap-1 cursor-pointer hover:bg-secondary-container/60 transition-colors border border-secondary/10">
+<span>🚀</span>
+<span class="font-bold">4</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Message Group 2 (Bento Style Content) -->
+<div class="flex items-start gap-4 group hover:bg-surface-container-high/30 -mx-4 px-4 py-2 rounded-xl transition-all duration-300">
+<img alt="User 3" class="w-10 h-10 rounded-full object-cover shrink-0" data-alt="side profile of a woman with vibrant blue hair looking thoughtfully into distance, neon lights reflecting on skin" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbmBut-PFKqhyvIPySt9bm9XYuXcJTwX7yH6j8HaA0WnOPqxwsOW3g90cQL-asZulVZLr5VdI9VBw4Qbh9fh52PgCGucfF6qqRGITStISLoZwV6prhZO9MTc5WHO-VMo2ClTUC7cHHRFBN1vaxbOx2iReW80v61Pht0_Ic0NHYufybu-h2flMIv8fTwsChtA-IBZ30x_EMzRmOvQl7fyAaNvSn4I2oIRx8KSLVKZ_SPCTP08zBORkTpbYoLNQMJaSuDNDqwm9GCiA"/>
+<div class="flex-1">
+<div class="flex items-baseline gap-2 mb-1">
+<span class="font-bold text-tertiary hover:underline cursor-pointer">Cyber_Silk</span>
+<span class="text-[10px] text-on-surface-variant">Today at 10:45 AM</span>
+</div>
+<p class="text-on-surface leading-relaxed text-[15px]">Check out this preview of the community landing page I'm building. No borders, just pure atmospheric depth.</p>
+<div class="mt-4 grid grid-cols-2 gap-3 max-w-2xl">
+<div class="aspect-video bg-surface-container-highest rounded-xl overflow-hidden group/image relative">
+<img alt="Design 1" class="w-full h-full object-cover" data-alt="minimalist abstract digital art with smooth gradients of deep violet and bright cyan with organic flowing shapes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_PtgfbPylMumu6VYbBnSpIbs8QUjMsHo_YClPA79nASQqL19lymvM1pt4sMh7p_ZxG22dBUkonM2H81luO5P9Dgp7JYgqkDV70HVXKt6gAgghZEQVKfxniYfSCBmEjIEqnHyPs0g15igal8KQd_9ksyhvAudIBzltzOwZKV7Be6rDXwaM8IJISHOPFqnmATlSIzJMciMeePY6E4BqoLd45zIQ70FkHe_LzuadqXGzyHsAzFFT1mnZK8USftzMte5zxZKgueaa1VA"/>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover/image:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-3xl">open_in_full</span>
+</div>
+</div>
+<div class="aspect-video bg-surface-container-highest rounded-xl overflow-hidden group/image relative">
+<img alt="Design 2" class="w-full h-full object-cover" data-alt="macro photograph of fiber optic cables glowing with intense magenta and blue light in a dark environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgaG7kMC7g0o0w_BFVZrI91auHQcixTAJGGwNtktzkTeN9dWe3fYoUn3FmSAgHl03w9glR3jgeRmeEqK5XDeIRwRO2CJzgN9AfLPyb9GcVYI6OrY89Q4q-LyZfqWOgKdA3sb_uH40jcDAbY87YZdyzvK3Rg4xZbl9nLEpJL0ZI0dXT16rrAfV6CDdzvCYOWxmV5GgTf_FUi_1p1RXeOd_PMOk4UlGUWpDKvtfIuWzAwy-E63VpgDElSITIt0u-5yf-cstJUzhfhro"/>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover/image:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-3xl">open_in_full</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Message Group 3 -->
+<div class="flex items-start gap-4 group hover:bg-surface-container-high/30 -mx-4 px-4 py-2 rounded-xl transition-all duration-300">
+<div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-on-secondary font-black shrink-0">S</div>
+<div class="flex-1">
+<div class="flex items-baseline gap-2 mb-1">
+<span class="font-bold text-on-surface hover:underline cursor-pointer">Static_Link</span>
+<span class="text-[10px] text-on-surface-variant">Today at 10:50 AM</span>
+</div>
+<p class="text-on-surface leading-relaxed text-[15px]">That glassmorphism layout is actually insane. How's the performance on mobile?</p>
+</div>
+</div>
+</div>
+<!-- Chat Input Area -->
+<div class="px-4 pb-6 mt-auto">
+<div class="bg-surface-container-lowest rounded-xl flex items-center p-2 border border-outline-variant/10 focus-within:border-secondary/40 shadow-2xl">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<input id="messageInput" class="flex-1 bg-transparent border-none focus:ring-0 text-sm py-2 text-on-surface placeholder:text-on-surface-variant/50" placeholder="Message #general" type="text"/>
+<div class="flex items-center gap-2 px-2">
+<button class="p-1 text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">gif_box</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-tertiary transition-colors">
+<span class="material-symbols-outlined">mood</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Online Members Side Panel -->
+<aside class="hidden xl:flex w-64 flex-col bg-[#0c0e11] px-4 pt-6 overflow-y-auto">
+<div class="mb-6">
+<h3 class="font-inter tracking-tight label-md uppercase font-bold text-[#aaabaf] text-[11px] tracking-[0.05em] mb-4">Moderators — 2</h3>
+<div class="space-y-3">
+<div class="flex items-center gap-3 group cursor-pointer opacity-80 hover:opacity-100 transition-opacity">
+<div class="relative">
+<img alt="Mod 1" class="w-8 h-8 rounded-full border border-primary/40" data-alt="portrait of a man with focused expression, wearing headphones, dim cool lighting suggesting high-tech environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEM3M6QWjo7rJcY15iKX36ATLjTOJAQHqpCE3x6cLoeJFpKuECwyWnou-HD1iYtRNnEYpTMKVXpTdGAYur_CX_XHe30A0sdVnZHvlPYUBwHxP0dHtbFDjPlow4BA2HRQgsBRKlx8iD-cuzrN_RtVwJKbNZBz3IQmaFkIcUn292X9r-mFFUtG2kzoke5IZe7AOGRfT_R5FVsNLNv9O0uvisbnlA87b8FfC2z3_cS5vaDjmj1Pz1l56dZxZNs1yg9hUcDTM_3C-II0M"/>
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-secondary border-2 border-background rounded-full"></div>
+</div>
+<div>
+<p class="text-sm font-bold text-primary leading-none">Apex_Dev</p>
+<p class="text-[10px] text-on-surface-variant mt-0.5">Coding late...</p>
+</div>
+</div>
+<div class="flex items-center gap-3 group cursor-pointer opacity-80 hover:opacity-100 transition-opacity">
+<div class="relative">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-[10px] font-black text-white">NV</div>
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-secondary border-2 border-background rounded-full"></div>
+</div>
+<div>
+<p class="text-sm font-bold text-primary leading-none">Neon_Void</p>
+<p class="text-[10px] text-on-surface-variant mt-0.5">Substrate active</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mb-6">
+<h3 class="font-inter tracking-tight label-md uppercase font-bold text-[#aaabaf] text-[11px] tracking-[0.05em] mb-4">Architects — 5</h3>
+<div class="space-y-3">
+<div class="flex items-center gap-3 group cursor-pointer opacity-80 hover:opacity-100 transition-opacity">
+<div class="relative">
+<img alt="User 4" class="w-8 h-8 rounded-full" data-alt="outdoor natural portrait of a person with a warm friendly expression, soft sunlight filtering through leaves in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOVQtqEeV3s3UfwNQDMKCeHBckihILaCxXdRdJU9ty3ThkGAmkTHu0yfh1HqvulVVrW3AFP4koyGr1t4txYZ_7J228yZ_WjwEbRZ_IetXyZ_A4cmfGjbZWoSFGFFQvSwlmXXjMHjLvJmN8E-sqoj_tomnx06SyvKEMbnbSaFwiI5U5YO77aWyoJJpkfZDGGVYRUuVRJx4-90SCgiCdpO8awUIdx7sAapXIhjcj6r37w_RgvZEa-_JVvqo27N_KBYMl0cDQuz4w2v8"/>
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-secondary border-2 border-background rounded-full"></div>
+</div>
+<div>
+<p class="text-sm font-bold text-tertiary leading-none">Cyber_Silk</p>
+</div>
+</div>
+<!-- Idle state -->
+<div class="flex items-center gap-3 group cursor-pointer opacity-60 hover:opacity-100 transition-opacity">
+<div class="relative">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-[10px] font-black text-[#aaabaf]">SL</div>
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-tertiary-container border-2 border-background rounded-full"></div>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface leading-none">Static_Link</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+
+<!-- Contextual FAB (Mobile/Tablet specific if needed, but here kept as global action) -->
+<!-- Suppressed on "Details/Chat" as per instruction but included for "Home" context if intended -->
+
+<!-- KROK 1: PEŁNA BIBLIOTEKA SUPABASE (teraz jest poprawny adres) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // TWOJE DANE (wpisz je tutaj)
+  const SUPABASE_URL = 'https://pykkeknmtalulktajcgb.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5a2tla25tdGFsdWxrdGFqY2diIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NjI0NzIsImV4cCI6MjA5MTEzODQ3Mn0.q22LJBe6yZ2so0-0KXY_EBfsN68lzaxUDXpXo1prwUw';
+  
+  // INICJALIZACJA
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // KROK 2: ŁĄCZENIE Z ELEMENTAMI STRONY
+  // Musisz upewnić się, że w HTML masz <input id="messageInput"> 
+  // oraz <div id="chatContainer">
+  const messageInput = document.getElementById('messageInput');
+  const chatContainer = document.getElementById('chatContainer');
+
+  // FUNKCJA WYŚWIETLANIA WIADOMOŚCI
+  function renderMsg(msg) {
+    if (!chatContainer) return;
+    const html = `
+      <div class="flex items-start gap-4 px-4 py-2 hover:bg-white/5 transition-colors">
+        <div class="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold">
+          ${msg.username ? msg.username[0] : '?'}
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-purple-400 text-sm">${msg.username}</span>
+          </div>
+          <p class="text-sm text-gray-300">${msg.content}</p>
+        </div>
+      </div>`;
+    chatContainer.insertAdjacentHTML('beforeend', html);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  }
+
+  // OBSŁUGA WYSYŁANIA (ENTER)
+  messageInput.addEventListener('keydown', async (e) => { 
+    if (e.key === 'Enter') {
+        console.log('Naciśnięto Enter!'); 
+        const text = messageInput.value.trim();
+        
+        if (text !== "") {
+            messageInput.value = ""; 
+            const { error } = await supabaseClient
+                .from('messages')
+                .insert([{ content: text, username: 'Tester' }]);
+
+            if (error) {
+                console.error('Błąd Supabase:', error);
+                alert('Błąd bazy: ' + error.message); // To nam powie, jeśli baza odrzuca wiadomość
+            }
+        }
+    }
+});
+
+  // REALTIME (ODBIERANIE NA ŻYWO)
+  supabaseClient
+    .channel('public:messages')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
+      renderMsg(payload.new);
+    })
+    .subscribe();
+// Funkcja pobierająca historię wiadomości
+async function fetchMessages() {
+    const { data, error } = await supabaseClient
+        .from('messages')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+    if (data) {
+        // Czyścimy przykładowe wiadomości z kodu HTML, by zrobić miejsce na prawdziwe
+        chatContainer.innerHTML = ''; 
+        data.forEach(msg => renderMsg(msg));
+    }
+}
+
+// Wywołaj funkcję przy starcie strony
+fetchMessages();
+
+let currentChannelId = null;
+
+// 1. Otwieranie/Zamykanie okienka
+function toggleChannelModal() {
+    const modal = document.getElementById('channelModal');
+    modal.classList.toggle('hidden');
+}
+
+// 2. Podpięcie plusa w HTML (znajdź ikonę add przy Text Channels i dopisz onclick)
+// <span class="material-symbols-outlined" onclick="toggleChannelModal()">add</span>
+
+// 3. Wysyłanie nowego kanału do bazy
+async function createChannel() {
+    const name = document.getElementById('newChannelName').value.trim();
+    if (!name) return;
+
+    const { error } = await supabaseClient
+        .from('channels')
+        .insert([{ name: name.toLowerCase().replace(/\s+/g, '-') }]);
+
+    if (!error) {
+        document.getElementById('newChannelName').value = '';
+        toggleChannelModal();
+        loadChannels(); // Odśwież listę
+    }
+}
+
+// 4. Pobieranie kanałów i wyświetlanie ich po lewej stronie
+async function loadChannels() {
+    const { data: channels } = await supabaseClient.from('channels').select('*');
+    const channelList = document.querySelector('section .space-y-1'); // Kontener kanałów w Twoim HTML
+    
+    if (channels) {
+        channelList.innerHTML = '';
+        channels.forEach(ch => {
+            const isActive = currentChannelId === ch.id;
+            channelList.innerHTML += `
+                <div onclick="switchChannel(${ch.id}, '${ch.name}')" 
+                     class="${isActive ? 'bg-[#1d2024] text-[#f9f9fd]' : 'text-[#aaabaf]'} hover:bg-[#1d2024]/50 mx-2 px-2 py-1.5 flex items-center gap-2 cursor-pointer rounded-md transition-all">
+                    <span class="material-symbols-outlined text-lg opacity-60">tag</span>
+                    <span class="font-inter text-sm font-medium">${ch.name}</span>
+                </div>`;
+        });
+        
+        // Jeśli nie wybrano kanału, ustaw pierwszy jako aktywny
+        if (!currentChannelId && channels.length > 0) {
+            switchChannel(channels[0].id, channels[0].name);
+        }
+    }
+}
+
+// 5. Przełączanie kanału
+function switchChannel(id, name) {
+    currentChannelId = id;
+    document.querySelector('header h1').innerText = name; // Zmienia nazwę na górze
+    loadChannels(); // Odświeża kolory na liście
+    loadMessages(); // Musisz zmodyfikować loadMessages, by filtrowało po channel_id
+}
+
+// Uruchom ładowanie kanałów na starcie
+loadChannels();
+
+
+</script>
+<script>
+<!-- Modal do tworzenia kanału -->
+<div id="channelModal" class="fixed inset-0 bg-black/80 z-[100] hidden flex items-center justify-center">
+    <div class="bg-[#1d2024] p-6 rounded-xl w-80 border border-outline-variant/20">
+        <h3 class="text-white font-bold mb-4">Stwórz nowy kanał</h3>
+        <input id="newChannelName" type="text" placeholder="nazwa-kanału" class="w-full bg-[#0c0e11] border-none rounded-md text-sm p-2 mb-4 text-white focus:ring-1 focus:ring-primary">
+        <div class="flex justify-end gap-3">
+            <button onclick="toggleChannelModal()" class="text-sm text-gray-400 hover:text-white">Anuluj</button>
+            <button onclick="createChannel()" class="bg-primary text-white px-4 py-1.5 rounded-md text-sm font-bold">Stwórz</button>
+        </div>
+    </div>
+</div>
+let currentChannelId = null;
+
+// 1. Otwieranie/Zamykanie okienka
+function toggleChannelModal() {
+    const modal = document.getElementById('channelModal');
+    modal.classList.toggle('hidden');
+}
+
+// 2. Podpięcie plusa w HTML (znajdź ikonę add przy Text Channels i dopisz onclick)
+// <span class="material-symbols-outlined" onclick="toggleChannelModal()">add</span>
+
+// 3. Wysyłanie nowego kanału do bazy
+async function createChannel() {
+    const name = document.getElementById('newChannelName').value.trim();
+    if (!name) return;
+
+    const { error } = await supabaseClient
+        .from('channels')
+        .insert([{ name: name.toLowerCase().replace(/\s+/g, '-') }]);
+
+    if (!error) {
+        document.getElementById('newChannelName').value = '';
+        toggleChannelModal();
+        loadChannels(); // Odśwież listę
+    }
+}
+
+// 4. Pobieranie kanałów i wyświetlanie ich po lewej stronie
+async function loadChannels() {
+    const { data: channels } = await supabaseClient.from('channels').select('*');
+    const channelList = document.querySelector('section .space-y-1'); // Kontener kanałów w Twoim HTML
+    
+    if (channels) {
+        channelList.innerHTML = '';
+        channels.forEach(ch => {
+            const isActive = currentChannelId === ch.id;
+            channelList.innerHTML += `
+                <div onclick="switchChannel(${ch.id}, '${ch.name}')" 
+                     class="${isActive ? 'bg-[#1d2024] text-[#f9f9fd]' : 'text-[#aaabaf]'} hover:bg-[#1d2024]/50 mx-2 px-2 py-1.5 flex items-center gap-2 cursor-pointer rounded-md transition-all">
+                    <span class="material-symbols-outlined text-lg opacity-60">tag</span>
+                    <span class="font-inter text-sm font-medium">${ch.name}</span>
+                </div>`;
+        });
+        
+        // Jeśli nie wybrano kanału, ustaw pierwszy jako aktywny
+        if (!currentChannelId && channels.length > 0) {
+            switchChannel(channels[0].id, channels[0].name);
+        }
+    }
+}
+
+// 5. Przełączanie kanału
+function switchChannel(id, name) {
+    currentChannelId = id;
+    document.querySelector('header h1').innerText = name; // Zmienia nazwę na górze
+    loadChannels(); // Odświeża kolory na liście
+    loadMessages(); // Musisz zmodyfikować loadMessages, by filtrowało po channel_id
+}
+
+// Uruchom ładowanie kanałów na starcie
+loadChannels();
+<script>
+    // To jest "strażnik" przewijania
+    const observer = new MutationObserver(() => {
+        const chatWindow = document.getElementById('chat-window');
+        if (chatWindow) {
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+    });
+
+    // Zaczynamy obserwować okno czatu – gdy tylko wpadnie nowa wiadomość, przewiniemy w dół
+    const chatWin = document.getElementById('chat-window');
+    if (chatWin) {
+        observer.observe(chatWin, { childList: true });
+    }
+</script>
+
 </body>
 </html>
