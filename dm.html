@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html class="dark" lang="pl">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>HaVoC | Wiadomości</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&display=swap" rel="stylesheet"/>
+    
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#b6a0ff",
+                        "primary-dim": "#7e51ff",
+                        "secondary": "#00e3fd",
+                        "tertiary": "#ff96bb",
+                        "background": "#0c0e11",
+                        "surface": "#0c0e11",
+                        "surface-container": "#171a1d",
+                        "surface-container-low": "#111417",
+                        "surface-container-high": "#1d2024",
+                        "surface-container-highest": "#23262a",
+                        "on-surface": "#f9f9fd",
+                        "on-surface-variant": "#aaabaf",
+                        "outline-variant": "#46484b"
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #46484b; border-radius: 10px; }
+        .conversation-item:hover { background: rgba(182, 160, 255, 0.1); }
+        .conversation-item.active { background: rgba(182, 160, 255, 0.2); border-left: 3px solid #b6a0ff; }
+    </style>
+</head>
+<body class="bg-background text-on-surface flex h-screen overflow-hidden">
+
+<!-- SideNavBar Rail -->
+<nav class="fixed left-0 top-0 h-full z-50 w-[72px] flex flex-col items-center py-4 bg-[#0c0e11]">
+    <div class="mb-4">
+        <div class="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[#b6a0ff] to-[#7e51ff] rounded-[12px] text-white cursor-pointer" onclick="window.location.href='index.html'">
+            <span class="material-symbols-outlined">terminal</span>
+        </div>
+    </div>
+    <div class="w-8 h-[2px] bg-surface-container-highest rounded-full mb-4"></div>
+    <div class="space-y-3 flex flex-col items-center">
+        <!-- DM Button - Active -->
+        <div class="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[#b6a0ff] to-[#7e51ff] rounded-[12px] text-white cursor-pointer">
+            <span class="material-symbols-outlined">chat</span>
+        </div>
+        <div class="w-12 h-12 flex items-center justify-center bg-[#171a1d] text-[#aaabaf] rounded-[24px] hover:rounded-[12px] hover:bg-[#b6a0ff] hover:text-white transition-all cursor-pointer" onclick="window.location.href='index.html'">
+            <span class="material-symbols-outlined">home</span>
+        </div>
+    </div>
+    <div class="mt-auto">
+        <div class="w-12 h-12 flex items-center justify-center bg-[#171a1d] text-[#aaabaf] rounded-[24px] hover:rounded-[12px] hover:bg-[#b6a0ff] hover:text-white transition-all cursor-pointer" onclick="window.location.href='settings.html'">
+            <span class="material-symbols-outlined">settings</span>
+        </div>
+    </div>
+</nav>
+
+<!-- Conversations List -->
+<aside class="fixed left-[72px] top-0 h-full z-40 w-72 flex flex-col bg-[#111417]">
+    <header class="h-14 px-4 flex items-center justify-between shadow-sm bg-[#111417]/80 backdrop-blur-xl border-b border-outline-variant/10">
+        <h2 class="font-bold text-lg text-[#f9f9fd]">Wiadomości</h2>
+        <button onclick="showNewDMModal()" class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary/20 hover:bg-primary/30 text-primary transition-all">
+            <span class="material-symbols-outlined text-xl">edit_square</span>
+        </button>
+    </header>
+    
+    <!-- Search -->
+    <div class="p-3">
+        <div class="flex items-center bg-surface-container-highest rounded-lg px-3 py-2">
+            <span class="material-symbols-outlined text-on-surface-variant text-sm mr-2">search</span>
+            <input type="text" id="searchUsers" placeholder="Szukaj konwersacji..." 
+                class="bg-transparent border-none focus:ring-0 text-sm w-full text-on-surface placeholder:text-on-surface-variant/50">
+        </div>
+    </div>
+    
+    <!-- Conversations -->
+    <div id="conversationsList" class="flex-1 overflow-y-auto">
+        <!-- Konwersacje załadują się tutaj -->
+        <div class="text-center text-on-surface-variant text-sm py-8">
+            <span class="material-symbols-outlined text-4xl mb-2 block opacity-50">chat_bubble</span>
+            Brak konwersacji
+        </div>
+    </div>
+</aside>
+<!-- Main Chat Area -->
+<main class="flex-1 ml-[360px] flex flex-col bg-surface-container h-screen overflow-hidden">
+    
+    <!-- No Conversation Selected State -->
+    <div id="noConversation" class="flex-1 flex flex-col items-center justify-center text-center p-8">
+        <div class="w-24 h-24 rounded-full bg-primary/20 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-5xl text-primary">forum</span>
+        </div>
+        <h2 class="text-2xl font-bold text-on-surface mb-2">Twoje wiadomości</h2>
+        <p class="text-on-surface-variant mb-6 max-w-md">Wybierz konwersację z listy po lewej lub rozpocznij nową rozmowę</p>
+        <button onclick="showNewDMModal()" class="px-6 py-3 bg-gradient-to-r from-[#b6a0ff] to-[#7e51ff] rounded-xl font-bold text-white hover:opacity-90 transition-all">
+            Nowa wiadomość
+        </button>
+    </div>
+    
+    <!-- Active Conversation -->
+    <div id="activeConversation" class="flex-1 flex flex-col hidden">
+        <!-- Chat Header -->
+        <header class="h-14 px-6 flex items-center justify-between shrink-0 bg-[#111417]/80 backdrop-blur-xl border-b border-outline-variant/10">
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <div id="dmUserAvatar" class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">?</div>
+                    <div id="dmUserStatus" class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-[#111417] rounded-full"></div>
+                </div>
+                <div>
+                    <h3 id="dmUserName" class="font-bold text-on-surface">Użytkownik</h3>
+                    <p id="dmUserStatusText" class="text-xs text-on-surface-variant">Online</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all">
+                    <span class="material-symbols-outlined">call</span>
+                </button>
+                <button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all">
+                    <span class="material-symbols-outlined">videocam</span>
+                </button>
+                <button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all">
+                    <span class="material-symbols-outlined">more_vert</span>
+                </button>
+            </div>
+        </header>
+        
+        <!-- Messages -->
+        <div id="dmMessages" class="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+            <!-- Wiadomości załadują się tutaj -->
+        </div>
+        
+        <!-- Input Area -->
+        <div class="shrink-0 px-4 pb-4 pt-2 bg-surface-container border-t border-outline-variant/10">
+            <div id="dmImagePreview" class="hidden mb-3 relative">
+                <img id="dmImagePreviewImg" src="" alt="Preview" class="max-h-32 rounded-lg border border-outline-variant">
+                <button onclick="cancelDMImage()" class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm hover:bg-red-600">✕</button>
+            </div>
+            
+            <div class="bg-surface-container-lowest rounded-xl flex items-center p-2 border border-outline-variant/10 focus-within:border-primary/40">
+                <button type="button" onclick="document.getElementById('dmImageInput').click()" class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">image</span>
+                </button>
+                <input type="file" id="dmImageInput" accept="image/*" class="hidden" onchange="handleDMImageSelect(event)">
+                
+                <input type="text" id="dmMessageInput" 
+                    class="flex-1 bg-transparent border-none focus:ring-0 text-sm py-2 text-on-surface placeholder:text-on-surface-variant/50" 
+                    placeholder="Napisz wiadomość...">
+                
+                <button type="button" onclick="sendDM()" class="p-2 text-primary hover:text-white hover:bg-primary rounded-lg transition-all">
+                    <span class="material-symbols-outlined">send</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- New DM Modal -->
+<div id="newDMModal" class="fixed inset-0 bg-black/80 z-[100] hidden flex items-center justify-center">
+    <div class="bg-[#1d2024] rounded-2xl w-96 max-h-[80vh] flex flex-col border border-outline-variant/20 shadow-2xl">
+        <div class="p-4 border-b border-outline-variant/10 flex items-center justify-between">
+            <h3 class="text-lg font-bold text-white">Nowa wiadomość</h3>
+            <button onclick="hideNewDMModal()" class="text-on-surface-variant hover:text-white">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <div class="p-4">
+            <div class="flex items-center bg-surface-container-highest rounded-lg px-3 py-2 mb-4">
+                <span class="material-symbols-outlined text-on-surface-variant text-sm mr-2">search</span>
+                <input type="text" id="searchNewUser" placeholder="Szukaj użytkownika..." 
+                    class="bg-transparent border-none focus:ring-0 text-sm w-full text-on-surface placeholder:text-on-surface-variant/50"
+                    oninput="searchUsers(this.value)">
+            </div>
+            
+            <div id="userSearchResults" class="max-h-64 overflow-y-auto space-y-2">
+                <p class="text-on-surface-variant text-sm text-center py-4">Wpisz nazwę użytkownika</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ===== SUPABASE CONFIG =====
+const SUPABASE_URL = 'https://pykkeknmtalulktajcgb.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5a2tla25tdGFsdWxrdGFqY2diIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NjI0NzIsImV4cCI6MjA5MTEzODQ3Mn0.q22LJBe6yZ2so0-0KXY_EBfsN68lzaxUDXpXo1prwUw';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: {
+        persistSession: true,
+        storageKey: 'havoc-auth',
+        storage: window.localStorage,
+        autoRefreshToken: true,
+        detectSessionInUrl: false
+    }
+});
+
+// ===== ZMIENNE GLOBALNE =====
+let currentUser = null;
+let currentUsername = 'Anonim';
+let currentConversationId = null;
+let currentDMPartner = null;
+let selectedDMImage = null;
+
+// ===== AUTH =====
+async function checkAuth() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    
+    if (!session) {
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    currentUser = session.user;
+    
+    const { data: profile } = await supabaseClient
+        .from('profiles')
+        .select('username')
+        .eq('id', currentUser.id)
+        .single();
+    
+    if (profile && profile.username) {
+        currentUsername = profile.username;
+    } else {
+        currentUsername = currentUser.email.split('@')[0];
+    }
+    
+    console.log('Zalogowany jako:', currentUsername);
+    loadConversations();
+}
+
+// ===== ŁADOWANIE KONWERSACJI =====
+async function loadConversations() {
+    // Pobierz konwersacje użytkownika
+    const { data: participations } = await supabaseClient
+        .from('conversation_participants')
+        .select('conversation_id')
+        .eq('user_id', currentUser.id);
+    
+    if (!participations || participations.length === 0) {
+        return;
+    }
+    
+    const conversationIds = participations.map(p => p.conversation_id);
+    
+    // Pobierz szczegóły konwersacji
+    const conversations = [];
+    
+    for (const convId of conversationIds) {
+        // Znajdź drugiego uczestnika
+        const { data: participants } = await supabaseClient
+            .from('conversation_participants')
+            .select('user_id')
+            .eq('conversation_id', convId)
+            .neq('user_id', currentUser.id);
+        
+        if (participants && participants.length > 0) {
+            const partnerId = participants[0].user_id;
+            
+            // Pobierz profil partnera
+            const { data: partnerProfile } = await supabaseClient
+                .from('profiles')
+                .select('username, avatar_url, status')
+                .eq('id', partnerId)
+                .single();
+            
+            // Pobierz ostatnią wiadomość
+            const { data: lastMsg } = await supabaseClient
+                .from('direct_messages')
+                .select('content, created_at')
+                .eq('conversation_id', convId)
+                .order('created_at', { ascending: false })
+                .limit(1)
+                .single();
+            
+            conversations.push({
+                id: convId,
+                partnerId: partnerId,
+                partnerName: partnerProfile?.username || 'Użytkownik',
+                partnerAvatar: partnerProfile?.avatar_url,
+                partnerStatus: partnerProfile?.status || 'offline',
+                lastMessage: lastMsg?.content || 'Brak wiadomości',
+                lastMessageTime: lastMsg?.created_at
+            });
+        }
+    }
+    
+    renderConversations(conversations);
+}
+
+function renderConversations(conversations) {
+    const container = document.getElementById('conversationsList');
+    if (!container) return;
+    
+    if (conversations.length === 0) {
+        container.innerHTML = `
+            <div class="text-center text-on-surface-variant text-sm py-8">
+                <span class="material-symbols-outlined text-4xl mb-2 block opacity-50">chat_bubble</span>
+                Brak konwersacji
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '';
+    conversations.forEach(conv => {
+        const isActive = currentConversationId === conv.id;
+        const statusColor = conv.partnerStatus === 'online' ? 'bg-green-500' : 
+                           conv.partnerStatus === 'idle' ? 'bg-yellow-500' : 
+                           conv.partnerStatus === 'dnd' ? 'bg-red-500' : 'bg-gray-500';
+        
+        html += `
+            <div class="conversation-item ${isActive ? 'active' : ''} flex items-center gap-3 px-4 py-3 cursor-pointer transition-all"
+                onclick="openConversation(${conv.id}, '${conv.partnerId}', '${conv.partnerName}', '${conv.partnerStatus}')">
+                <div class="relative">
+                    <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold">
+                        ${conv.partnerName[0].toUpperCase()}
+                    </div>
+                    <div class="absolute bottom-0 right-0 w-3.5 h-3.5 ${statusColor} border-2 border-[#111417] rounded-full"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between">
+                        <span class="font-semibold text-on-surface truncate">${conv.partnerName}</span>
+                        <span class="text-xs text-on-surface-variant">${formatTime(conv.lastMessageTime)}</span>
+                    </div>
+                    <p class="text-sm text-on-surface-variant truncate">${conv.lastMessage}</p>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+// ===== OTWIERANIE KONWERSACJI =====
+async function openConversation(conversationId, partnerId, partnerName, partnerStatus) {
+    currentConversationId = conversationId;
+    currentDMPartner = { id: partnerId, name: partnerName, status: partnerStatus };
+    
+    // Pokaż widok konwersacji
+    document.getElementById('noConversation').classList.add('hidden');
+    document.getElementById('activeConversation').classList.remove('hidden');
+    
+    // Aktualizuj header
+    document.getElementById('dmUserName').textContent = partnerName;
+    document.getElementById('dmUserAvatar').textContent = partnerName[0].toUpperCase();
+    
+    const statusText = partnerStatus === 'online' ? 'Online' : 
+                       partnerStatus === 'idle' ? 'Zaraz wracam' : 
+                       partnerStatus === 'dnd' ? 'Nie przeszkadzać' : 'Offline';
+    document.getElementById('dmUserStatusText').textContent = statusText;
+    
+    const statusColor = partnerStatus === 'online' ? 'bg-green-500' : 
+                        partnerStatus === 'idle' ? 'bg-yellow-500' : 
+                        partnerStatus === 'dnd' ? 'bg-red-500' : 'bg-gray-500';
+    document.getElementById('dmUserStatus').className = `absolute bottom-0 right-0 w-3 h-3 ${statusColor} border-2 border-[#111417] rounded-full`;
+    
+    // Odśwież listę konwersacji (podświetlenie)
+    loadConversations();
+    
+    // Załaduj wiadomości
+    loadDMMessages();
+}
+
+// ===== ŁADOWANIE WIADOMOŚCI DM =====
+async function loadDMMessages() {
+    if (!currentConversationId) return;
+    
+    const { data: messages, error } = await supabaseClient
+        .from('direct_messages')
+        .select('*')
+        .eq('conversation_id', currentConversationId)
+        .order('created_at', { ascending: true });
+    
+    if (error) {
+        console.error('Error loading DM:', error);
+        return;
+    }
+    
+    const container = document.getElementById('dmMessages');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    if (messages && messages.length > 0) {
+        let lastDate = null;
+        
+        messages.forEach(msg => {
+            // Dodaj separator daty jeśli nowy dzień
+            const msgDate = new Date(msg.created_at).toDateString();
+            if (msgDate !== lastDate) {
+                const dateDiv = document.createElement('div');
+                dateDiv.className = 'flex items-center justify-center my-4';
+                dateDiv.innerHTML = `
+                    <div class="flex-1 h-px bg-outline-variant/30"></div>
+                    <span class="px-4 text-xs text-on-surface-variant font-medium">${formatDateSeparator(msg.created_at)}</span>
+                    <div class="flex-1 h-px bg-outline-variant/30"></div>
+                `;
+                container.appendChild(dateDiv);
+                lastDate = msgDate;
+            }
+            
+            renderDMMessage(msg);
+        });
+    } else {
+        container.innerHTML = `
+            <div class="text-center text-on-surface-variant py-8">
+                <span class="material-symbols-outlined text-4xl mb-2 block opacity-50">waving_hand</span>
+                <p>To jest początek Twojej rozmowy z <strong>${currentDMPartner?.name || 'tym użytkownikiem'}</strong></p>
+            </div>
+        `;
+    }
+}
+
+function formatDateSeparator(timestamp) {
+    const date = new Date(timestamp);
+    const now = new Date();
+    
+    if (date.toDateString() === now.toDateString()) {
+        return 'Dzisiaj';
+    }
+    
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (date.toDateString() === yesterday.toDateString()) {
+        return 'Wczoraj';
+    }
+    
+    return date.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function renderDMMessage(msg) {
+    const container = document.getElementById('dmMessages');
+    if (!container) return;
+    
+    // Sprawdź czy wiadomość już istnieje (unikaj duplikatów)
+    if (document.querySelector('[data-dm-id="' + msg.id + '"]')) {
+        return;
+    }
+    
+    const isMine = msg.sender_id === currentUser.id;
+    
+    let imageHtml = '';
+    if (msg.image_url) {
+        imageHtml = `<img src="${msg.image_url}" alt="Image" class="max-w-sm max-h-64 rounded-lg mt-2 cursor-pointer hover:opacity-90" onclick="openImageModal('${msg.image_url}')">`;
+    }
+    
+    const div = document.createElement('div');
+    div.className = `flex ${isMine ? 'justify-end' : 'justify-start'} mb-3`;
+    div.setAttribute('data-dm-id', msg.id);
+    div.innerHTML = `
+        <div class="max-w-[70%]">
+            <div class="${isMine ? 'bg-gradient-to-r from-[#b6a0ff] to-[#7e51ff] text-white' : 'bg-surface-container-high text-on-surface'} rounded-2xl px-4 py-3 ${isMine ? 'rounded-br-md' : 'rounded-bl-md'} shadow-lg">
+                ${msg.content ? `<p class="text-sm leading-relaxed">${escapeHtml(msg.content)}</p>` : ''}
+                ${imageHtml}
+            </div>
+            <p class="text-xs text-on-surface-variant mt-1 ${isMine ? 'text-right' : 'text-left'} px-1">
+                ${formatTime(msg.created_at)}
+            </p>
+        </div>
+    `;
+    
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+}
+// ===== REALTIME DLA DM =====
+supabaseClient
+    .channel('dm-realtime')
+    .on('postgres_changes', { 
+        event: 'INSERT', 
+        schema: 'public', 
+        table: 'direct_messages' 
+    }, function(payload) {
+        console.log('Nowa wiadomość DM:', payload.new);
+        
+        // Jeśli jesteśmy w tej konwersacji - pokaż wiadomość
+        if (payload.new.conversation_id === currentConversationId) {
+            renderDMMessage(payload.new);
+        }
+        
+        // Odśwież listę konwersacji (nowa wiadomość = nowy preview)
+        loadConversations();
+    })
+    .subscribe(function(status) {
+        console.log('Realtime DM status:', status);
+    });
+// ===== WYSYŁANIE WIADOMOŚCI DM =====
+async function sendDM() {
+    const input = document.getElementById('dmMessageInput');
+    const text = input ? input.value.trim() : '';
+    
+    if (!text && !selectedDMImage) return;
+    if (!currentConversationId) return;
+    
+    let imageUrl = null;
+    
+    if (selectedDMImage) {
+        imageUrl = await uploadDMImage(selectedDMImage);
+        if (!imageUrl && !text) return;
+    }
+    
+    // Wyczyść input OD RAZU (lepsze UX)
+    if (input) input.value = '';
+    cancelDMImage();
+    
+    const { data, error } = await supabaseClient
+        .from('direct_messages')
+        .insert([{
+            conversation_id: currentConversationId,
+            sender_id: currentUser.id,
+            content: text || null,
+            image_url: imageUrl
+        }])
+        .select()
+        .single();
+    
+    if (error) {
+        console.error('Error sending DM:', error);
+        alert('Błąd wysyłania: ' + error.message);
+        return;
+    }
+    
+    // Wyświetl wiadomość natychmiast (nie czekaj na realtime)
+    if (data) {
+        renderDMMessage(data);
+    }
+}
+
+// ===== OBRAZKI DM =====
+function handleDMImageSelect(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    if (file.size > 5 * 1024 * 1024) {
+        alert('Obrazek jest za duży! Max 5MB');
+        return;
+    }
+    
+    selectedDMImage = file;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('dmImagePreviewImg').src = e.target.result;
+        document.getElementById('dmImagePreview').classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+}
+
+function cancelDMImage() {
+    selectedDMImage = null;
+    document.getElementById('dmImagePreview').classList.add('hidden');
+    document.getElementById('dmImageInput').value = '';
+}
+
+async function uploadDMImage(file) {
+    const fileExt = file.name.split('.').pop();
+    const fileName = currentUser.id + '/dm/' + Date.now() + '.' + fileExt;
+    
+    const { error } = await supabaseClient.storage
+        .from('chat-images')
+        .upload(fileName, file);
+    
+    if (error) {
+        console.error('Upload error:', error);
+        return null;
+    }
+    
+    const { data: urlData } = supabaseClient.storage
+        .from('chat-images')
+        .getPublicUrl(fileName);
+    
+    return urlData.publicUrl;
+}
+
+// ===== NOWA KONWERSACJA =====
+function showNewDMModal() {
+    document.getElementById('newDMModal').classList.remove('hidden');
+    document.getElementById('searchNewUser').value = '';
+    document.getElementById('userSearchResults').innerHTML = '<p class="text-on-surface-variant text-sm text-center py-4">Wpisz nazwę użytkownika</p>';
+}
+
+function hideNewDMModal() {
+    document.getElementById('newDMModal').classList.add('hidden');
+}
+
+async function searchUsers(query) {
+    const container = document.getElementById('userSearchResults');
+    
+    if (!query || query.length < 2) {
+        container.innerHTML = '<p class="text-on-surface-variant text-sm text-center py-4">Wpisz min. 2 znaki</p>';
+        return;
+    }
+    
+    const { data: users, error } = await supabaseClient
+        .from('profiles')
+        .select('id, username, avatar_url, status')
+        .ilike('username', '%' + query + '%')
+        .neq('id', currentUser.id)
+        .limit(10);
+    
+    if (error || !users || users.length === 0) {
+        container.innerHTML = '<p class="text-on-surface-variant text-sm text-center py-4">Nie znaleziono użytkowników</p>';
+        return;
+    }
+    
+    let html = '';
+    users.forEach(user => {
+        const statusColor = user.status === 'online' ? 'bg-green-500' : 
+                           user.status === 'idle' ? 'bg-yellow-500' : 
+                           user.status === 'dnd' ? 'bg-red-500' : 'bg-gray-500';
+        
+        html += `
+            <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-container-high cursor-pointer transition-all"
+                onclick="startConversation('${user.id}', '${user.username}', '${user.status || 'offline'}')">
+                <div class="relative">
+                    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">
+                        ${user.username[0].toUpperCase()}
+                    </div>
+                    <div class="absolute bottom-0 right-0 w-2.5 h-2.5 ${statusColor} border-2 border-[#1d2024] rounded-full"></div>
+                </div>
+                <span class="font-medium text-on-surface">${user.username}</span>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+async function startConversation(userId, userName, userStatus) {
+    // Sprawdź czy konwersacja już istnieje
+    const { data: myConvs } = await supabaseClient
+        .from('conversation_participants')
+        .select('conversation_id')
+        .eq('user_id', currentUser.id);
+    
+    if (myConvs) {
+        for (const conv of myConvs) {
+            const { data: partner } = await supabaseClient
+                .from('conversation_participants')
+                .select('user_id')
+                .eq('conversation_id', conv.conversation_id)
+                .eq('user_id', userId)
+                .single();
+            
+            if (partner) {
+                // Konwersacja już istnieje
+                hideNewDMModal();
+                openConversation(conv.conversation_id, userId, userName, userStatus);
+                return;
+            }
+        }
+    }
+    
+    // Stwórz nową konwersację
+    const { data: newConv, error: convError } = await supabaseClient
+        .from('conversations')
+        .insert([{}])
+        .select()
+        .single();
+    
+    if (convError) {
+        console.error('Error creating conversation:', convError);
+        return;
+    }
+    
+    // Dodaj uczestników
+    await supabaseClient
+        .from('conversation_participants')
+        .insert([
+            { conversation_id: newConv.id, user_id: currentUser.id },
+            { conversation_id: newConv.id, user_id: userId }
+        ]);
+    
+    hideNewDMModal();
+    openConversation(newConv.id, userId, userName, userStatus);
+    loadConversations();
+}
+
+// ===== POMOCNICZE =====
+function formatTime(timestamp) {
+    if (!timestamp) return '';
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diff = now - date;
+    
+    const timeStr = date.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+    
+    // Dzisiaj
+    if (date.toDateString() === now.toDateString()) {
+        return 'Dzisiaj, ' + timeStr;
+    }
+    
+    // Wczoraj
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (date.toDateString() === yesterday.toDateString()) {
+        return 'Wczoraj, ' + timeStr;
+    }
+    
+    // Ten tydzień
+    if (diff < 7 * 24 * 60 * 60 * 1000) {
+        const days = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
+        return days[date.getDay()] + ', ' + timeStr;
+    }
+    
+    // Starsze
+    return date.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' }) + ', ' + timeStr;
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function openImageModal(imageUrl) {
+    const modal = document.createElement('div');
+    modal.id = 'imageModal';
+    modal.className = 'fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center p-4';
+    modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
+    modal.innerHTML = `
+        <div class="relative">
+            <img src="${imageUrl}" alt="Full size" class="max-w-full max-h-[90vh] rounded-lg">
+            <button onclick="document.getElementById('imageModal').remove()" class="absolute top-2 right-2 w-10 h-10 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center">✕</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+// ===== EVENTY =====
+document.getElementById('dmMessageInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendDM();
+    }
+});
+
+// ===== REALTIME =====
+supabaseClient
+    .channel('public:direct_messages')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'direct_messages' }, function(payload) {
+        if (payload.new.conversation_id === currentConversationId) {
+            renderDMMessage(payload.new);
+        }
+        loadConversations();
+    })
+    .subscribe();
+
+// ===== START =====
+checkAuth();
+</script>
+
+</body>
+</html>

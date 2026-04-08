@@ -1,0 +1,58 @@
+{
+  "name": "havoc-community",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+"scripts": {
+  "start": "electron .",
+  "build": "electron-builder"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HaVoCap/havoc-community.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/HaVoCap/havoc-community/issues"
+  },
+  "homepage": "https://github.com/HaVoCap/havoc-community#readme",
+    "devDependencies": {
+    "electron": "^41.1.1",
+    "electron-builder": "^26.8.1"
+  },
+  "build": {
+    "appId": "com.havoc.community",
+    "productName": "Havoc Community",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!**/*.map"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "portable": {
+      "artifactName": "Havoc-Community-Portable.exe"
+    }
+  }
+}

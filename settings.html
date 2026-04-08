@@ -1,318 +1,1092 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          "colors": {
-                  "inverse-primary": "#6834eb",
-                  "on-tertiary-container": "#59002e",
-                  "tertiary": "#ff96bb",
-                  "tertiary-fixed-dim": "#f57ca9",
-                  "secondary-fixed": "#26e6ff",
-                  "on-error-container": "#ffb2b9",
-                  "surface-container-low": "#111417",
-                  "on-tertiary-fixed": "#37001a",
-                  "on-secondary-fixed": "#003a42",
-                  "primary-dim": "#7e51ff",
-                  "on-primary-container": "#280072",
-                  "on-primary-fixed-variant": "#32008a",
-                  "on-secondary-container": "#e8fbff",
-                  "on-background": "#f9f9fd",
-                  "inverse-on-surface": "#535559",
-                  "on-surface": "#f9f9fd",
-                  "surface-container": "#171a1d",
-                  "inverse-surface": "#f9f9fd",
-                  "on-tertiary-fixed-variant": "#70103e",
-                  "tertiary-fixed": "#ff8db6",
-                  "on-secondary": "#004d57",
-                  "secondary": "#00e3fd",
-                  "surface-variant": "#23262a",
-                  "background": "#0c0e11",
-                  "on-primary": "#340090",
-                  "outline-variant": "#46484b",
-                  "secondary-dim": "#00d4ec",
-                  "on-tertiary": "#690939",
-                  "outline": "#747579",
-                  "surface-container-high": "#1d2024",
-                  "secondary-fixed-dim": "#00d7f0",
-                  "surface-container-highest": "#23262a",
-                  "surface": "#0c0e11",
-                  "error-container": "#a70138",
-                  "primary-fixed": "#a98fff",
-                  "primary-fixed-dim": "#9c7eff",
-                  "surface-tint": "#b6a0ff",
-                  "tertiary-container": "#fb81ae",
-                  "on-error": "#490013",
-                  "on-surface-variant": "#aaabaf",
-                  "error": "#ff6e84",
-                  "on-primary-fixed": "#000000",
-                  "on-secondary-fixed-variant": "#005964",
-                  "surface-bright": "#292c31",
-                  "primary-container": "#a98fff",
-                  "secondary-container": "#006875",
-                  "tertiary-dim": "#ee77a3",
-                  "error-dim": "#d73357",
-                  "surface-container-lowest": "#000000",
-                  "primary": "#b6a0ff",
-                  "surface-dim": "#0c0e11"
-          },
-          "borderRadius": {
-                  "DEFAULT": "0.25rem",
-                  "lg": "0.5rem",
-                  "xl": "0.75rem",
-                  "full": "9999px"
-          },
-          "fontFamily": {
-                  "headline": ["Inter"],
-                  "body": ["Inter"],
-                  "label": ["Inter"]
-          }
-        },
-      },
-    }
-  </script>
-<style>
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #0c0e11;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #46484b;
-      border-radius: 10px;
-    }
-  </style>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaVoC | Ustawienia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glow { box-shadow: 0 0 40px rgba(182, 160, 255, 0.2); }
+        .input-glow:focus { box-shadow: 0 0 20px rgba(182, 160, 255, 0.3); }
+        .avatar-upload:hover .avatar-overlay { opacity: 1; }
+        .tab-active { background: linear-gradient(to right, #b6a0ff, #7e51ff); color: white; }
+        .toggle-checkbox:checked { background: linear-gradient(to right, #b6a0ff, #7e51ff); }
+        .toggle-checkbox:checked::after { transform: translateX(100%); }
+        .toggle-checkbox::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+        .toggle-checkbox {
+            position: relative;
+            width: 48px;
+            height: 24px;
+            background: #46484b;
+            border-radius: 12px;
+            appearance: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            background: #23262a;
+            border-radius: 10px;
+            height: 8px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(to right, #b6a0ff, #7e51ff);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .color-option.active { ring: 3px solid white; transform: scale(1.2); }
+    </style>
 </head>
-<body class="bg-background text-on-surface font-body overflow-hidden">
-<!-- SideNavBar: Rail (Fixed Left) -->
-<aside class="fixed left-0 top-0 h-full z-50 h-screen w-[72px] flex flex-col items-center py-4 bg-[#0c0e11]">
-<div class="mb-6">
-<span class="text-[#b6a0ff] font-black tracking-tighter text-2xl" title="HaVoC Community">HC</span>
-</div>
-<div class="flex flex-col gap-4 flex-1">
-<button class="bg-[#171a1d] text-[#aaabaf] rounded-[24px] w-12 h-12 flex items-center justify-center hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 active:scale-90 group" onclick="window.location.href='messages.html'">
-<span class="material-symbols-outlined group-hover:text-white" data-icon="home">home</span>
-</button>
-<button class="bg-[#171a1d] text-[#aaabaf] rounded-[24px] w-12 h-12 flex items-center justify-center hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 active:scale-90 group" onclick="window.location.href='discover.html'">
-<span class="material-symbols-outlined group-hover:text-white" data-icon="sports_esports">sports_esports</span>
-</button>
-<button class="bg-[#171a1d] text-[#aaabaf] rounded-[24px] w-12 h-12 flex items-center justify-center hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 active:scale-90 group" onclick="window.location.href='{{DATA:SCREEN:SCREEN_4}}'"><span class="material-symbols-outlined group-hover:text-white" data-icon="explore">explore</span></button>
-<button class="bg-[#171a1d] text-[#aaabaf] rounded-[24px] w-12 h-12 flex items-center justify-center hover:rounded-[12px] hover:bg-[#b6a0ff] transition-all duration-300 active:scale-90 group">
-<span class="material-symbols-outlined group-hover:text-white" data-icon="music_note">music_note</span>
-</button>
-</div>
-<div class="mt-auto">
-<button class="bg-gradient-to-br from-[#b6a0ff] to-[#7e51ff] rounded-[12px] text-white w-12 h-12 flex items-center justify-center scale-95 active:scale-90" onclick="window.location.href='settings.html'">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-</button>
-</div>
-</aside>
-<!-- SideNavBar: Standard (Sub-navigation) -->
-<nav class="fixed left-[72px] top-0 h-full z-40 h-screen w-60 flex flex-col bg-[#111417]">
-<div class="p-6">
-<h2 class="font-inter tracking-tight label-md uppercase font-bold text-[#aaabaf] text-xs">HAVOC SETTINGS</h2>
-</div>
-<div class="flex-1 px-2 space-y-1 overflow-y-auto custom-scrollbar">
-<button class="w-full flex items-center gap-3 px-3 py-2 text-[#aaabaf] hover:bg-[#1d2024]/50 rounded-md transition-colors duration-200">
-<span class="material-symbols-outlined text-sm" data-icon="account_circle">account_circle</span>
-<span class="font-inter text-sm font-medium">My Account</span>
-</button>
-<button class="w-full flex items-center gap-3 px-3 py-2 bg-[#1d2024] text-[#f9f9fd] rounded-md transition-colors duration-200">
-<span class="material-symbols-outlined text-sm" data-icon="person">person</span>
-<span class="font-inter text-sm font-medium">User Profile</span>
-</button>
-<button class="w-full flex items-center gap-3 px-3 py-2 text-[#aaabaf] hover:bg-[#1d2024]/50 rounded-md transition-colors duration-200">
-<span class="material-symbols-outlined text-sm" data-icon="shield">shield</span>
-<span class="font-inter text-sm font-medium">Privacy &amp; Safety</span>
-</button>
-<div class="pt-4 pb-2 px-3">
-<h3 class="font-inter tracking-tight label-md uppercase font-bold text-[#aaabaf] text-[10px] opacity-60">APP SETTINGS</h3>
-</div>
-<button class="w-full flex items-center gap-3 px-3 py-2 text-[#aaabaf] hover:bg-[#1d2024]/50 rounded-md transition-colors duration-200">
-<span class="material-symbols-outlined text-sm" data-icon="graphic_eq">graphic_eq</span>
-<span class="font-inter text-sm font-medium">Voice &amp; Video</span>
-</button>
-<button class="w-full flex items-center gap-3 px-3 py-2 text-[#aaabaf] hover:bg-[#1d2024]/50 rounded-md transition-colors duration-200">
-<span class="material-symbols-outlined text-sm" data-icon="palette">palette</span>
-<span class="font-inter text-sm font-medium">Appearance</span>
-</button>
-<button class="w-full flex items-center gap-3 px-3 py-2 text-[#aaabaf] hover:bg-[#1d2024]/50 rounded-md transition-colors duration-200">
-<span class="material-symbols-outlined text-sm" data-icon="key">key</span>
-<span class="font-inter text-sm font-medium">Keybinds</span>
-</button>
-</div>
-<div class="p-4 mt-auto">
-<div class="bg-[#1d2024] p-3 rounded-xl border border-white/5">
-<p class="text-[10px] text-tertiary font-bold uppercase tracking-widest mb-1">UNLIMITED ACCESS</p>
-<p class="text-xs text-on-surface-variant leading-tight">All features are unlocked and free forever for the HaVoC Community.</p>
-</div>
-</div>
-</nav>
-<!-- Main Content Canvas -->
-<main class="ml-[312px] h-screen overflow-y-auto custom-scrollbar bg-surface-container relative">
-<!-- TopAppBar -->
-<header class="flex items-center justify-between px-8 h-16 sticky top-0 z-30 bg-[#111417]/80 backdrop-blur-xl shadow-[0px_1px_0px_0px_rgba(70,72,75,0.15)]">
-<h1 class="font-inter font-bold text-xl text-[#f9f9fd]">User Profile — HaVoC Community</h1>
-<div class="flex items-center gap-4">
-<button class="text-on-surface-variant hover:text-on-surface transition-opacity">
-<span class="material-symbols-outlined" data-icon="help">help</span>
-</button>
-<button class="px-4 py-1.5 bg-[#1d2024] rounded-lg text-sm font-semibold hover:bg-[#23262a] transition-colors border border-white/5" onclick="window.location.href='{{DATA:SCREEN:SCREEN_6}}'">
-          Esc
-        </button>
-</div>
-</header>
-<div class="max-w-4xl mx-auto px-8 py-10 space-y-12">
-<!-- Profile Branding Section (Glassmorphism Bento) -->
-<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<div class="md:col-span-2 relative group overflow-hidden rounded-xl bg-surface-container-high p-8 flex flex-col justify-end min-h-[320px]">
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent z-10"></div>
-<img class="absolute inset-0 w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="abstract flowing lines of vibrant neon purple and cyan on a dark background with cinematic depth of field" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAL0JcTgi8-u4guKn54DOqgD_b_6xY7oOSnSZ9ENDNCfyJRRybVNJRGXni0NMxdsWdQoOQE6uX8o_LI3QVdlxSd5PePl4qVAzmjzIWRfnKya8OoOENEoInU35ynaM7QOS35m0KJKAOuCfnPPcxUVLsfBbNais7VIKKg_kOpI_S98LJFFI7tEknvXAIq4HskEU4ucLZM5_cVn1q8PpgDoa41U51gZ5__clAzPzXULKLhOnZlca0F0uUu3JMHhacfVqtgUktd3dIrAiI"/>
-<div class="relative z-20 flex items-end gap-6">
-<div class="relative">
-<img class="w-24 h-24 rounded-full border-4 border-surface-container-high shadow-xl" data-alt="professional headshot of a creative tech individual with soft natural lighting and warm skin tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPoypTfQa5ZIhab5rXdEmzee8x_YiV6EoyDz1__iHR7AOp_c6YHTlwk8QyY_GZBO3xJ9JSwcGf_GTepzFf2GQ9KZdL-JtW0bcbsZJLX4LekRLKvwUzw-MQNWF2LIoz7Yt92rBFIPl6_UT_EMAUEPBI2FguSyWrm8kho81YVcpPIWBMp573xNiCxSxkhU3iICFoUyfdmA9_UJPEo6H_cFQ1wMJAkOhw_TiglthqczCmdyD8s3WciyEMsRZ93r0k0C85CmMuJv0AiMc"/>
-<div class="absolute bottom-1 right-1 w-6 h-6 bg-secondary rounded-full border-4 border-surface-container-high shadow-lg"></div>
-</div>
-<div class="pb-2">
-<h2 class="text-3xl font-black tracking-tight text-white">Alex Vanguard</h2>
-<p class="text-on-surface-variant flex items-center gap-2">
-                @vanguard_dev
-                <span class="px-2 py-0.5 bg-primary/20 text-primary text-[10px] font-bold rounded-full uppercase tracking-tighter">HaVoC Member</span>
-</p>
-</div>
-</div>
-</div>
-<div class="bg-surface-container-high rounded-xl p-6 flex flex-col justify-between border border-white/5">
-<div>
-<h3 class="text-xs font-bold uppercase text-on-surface-variant tracking-widest mb-4">HaVoC Account Status</h3>
-<div class="space-y-4">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-secondary" data-icon="check_circle">check_circle</span>
-<span class="text-sm">Verified Member</span>
-</div>
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary" data-icon="bolt">bolt</span>
-<span class="text-sm">Server Booster</span>
-</div>
-</div>
-</div>
-<button class="w-full py-3 rounded-lg bg-gradient-to-br from-primary to-primary-dim text-white font-bold text-sm shadow-lg shadow-primary/20 active:scale-95 transition-transform">
-            Edit Banner
-          </button>
-</div>
-</section>
-<!-- Settings Grid -->
-<section class="space-y-8">
-<div>
-<h3 class="text-xs font-bold uppercase text-on-surface-variant tracking-widest mb-6">Profile Customization</h3>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<!-- Bento Item 1: About Me -->
-<div class="bg-surface-container-low p-6 rounded-xl border border-white/5 space-y-4">
-<div class="flex items-center justify-between">
-<label class="text-sm font-semibold text-on-surface">About Me</label>
-<span class="text-[10px] text-on-surface-variant bg-surface-container px-2 py-1 rounded">190/300</span>
-</div>
-<textarea class="w-full bg-surface-container-lowest border-none rounded-lg text-sm text-on-surface-variant focus:ring-1 focus:ring-secondary/40 placeholder:text-outline-variant h-32 resize-none" placeholder="Write something about yourself..."></textarea>
-</div>
-<!-- Bento Item 2: Free Perks Promo -->
-<div class="bg-gradient-to-br from-tertiary/10 to-transparent p-6 rounded-xl border border-tertiary/20 flex flex-col justify-between">
-<div class="flex items-start justify-between">
-<div>
-<h4 class="text-lg font-bold text-tertiary">Unlimited Emojis</h4>
-<p class="text-xs text-on-surface-variant mt-1">Upload and use custom emojis across all servers.</p>
-</div>
-<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="sentiment_very_satisfied">sentiment_very_satisfied</span>
-</div>
-<div class="flex items-center gap-2 mt-6">
-<span class="px-3 py-1 bg-tertiary text-on-tertiary-container text-[10px] font-black rounded-full uppercase">Always Free</span>
-<p class="text-[10px] text-on-surface-variant">No subscription required.</p>
-</div>
-</div>
-</div>
-</div>
-<!-- Section: High Quality Content -->
-<div class="bg-[#171a1d] rounded-2xl p-8 relative overflow-hidden border border-white/5">
-<div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-<div>
-<h3 class="text-2xl font-black text-white leading-tight">Cinema-Grade Streaming</h3>
-<p class="text-on-surface-variant mt-3 leading-relaxed">
-                Experience crystal clear 4K @ 60FPS streaming for all users. We believe high-quality communication should never be behind a paywall in HaVoC.
-              </p>
-<div class="flex flex-wrap gap-4 mt-6">
-<div class="flex items-center gap-2 bg-surface-container-high px-3 py-2 rounded-lg">
-<span class="material-symbols-outlined text-secondary" data-icon="4k">4k</span>
-<span class="text-xs font-bold">Ultra HD</span>
-</div>
-<div class="flex items-center gap-2 bg-surface-container-high px-3 py-2 rounded-lg">
-<span class="material-symbols-outlined text-secondary" data-icon="high_quality">high_quality</span>
-<span class="text-xs font-bold">60 FPS</span>
-</div>
-</div>
-</div>
-<div class="relative group">
-<div class="absolute -inset-1 bg-gradient-to-r from-secondary to-primary rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-<div class="relative bg-black rounded-xl overflow-hidden aspect-video">
-<img class="w-full h-full object-cover" data-alt="cinematic shot of high-end gaming pc setup with purple led lighting and dual monitors showing creative software" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqpqCinRApPIBSayj6DvXiYH11D5Av-qzmJintetmrN0ENMXqw0WBNL0wx7SanWxlliYkBSh-c7615gLHBqGL106-7xyM3_Pr498FCtJDVk193ZrufTbkoBUrqH2rE4bJpMWfJL-IfAm-vJ_2hKo-Dew69HBCIsRrIsXRu8ZUz8MDHkW7kFnfEjOXUOHT-5VBk0jNVjpp_XNz38X48TN58N9xLIvQyvX9BbEUn4VUcPMEHq6IKnWLdHaKcdGhX0ELqNV_KPw0RnWc"/>
-<div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/20 transition-all cursor-pointer">
-<span class="material-symbols-outlined text-6xl text-white opacity-80" data-icon="play_circle">play_circle</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Section: Interactive Toggles -->
-<div>
-<h3 class="text-xs font-bold uppercase text-on-surface-variant tracking-widest mb-6">Interaction Settings</h3>
-<div class="space-y-4">
-<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl hover:bg-surface-container transition-colors border border-white/5">
-<div class="flex items-center gap-4">
-<div class="p-2 bg-surface-container-high rounded-lg">
-<span class="material-symbols-outlined text-on-surface-variant" data-icon="message">message</span>
-</div>
-<div>
-<p class="text-sm font-semibold">Direct Messages</p>
-<p class="text-xs text-on-surface-variant">Allow messages from HaVoC members</p>
-</div>
-</div>
-<button class="w-12 h-6 bg-secondary rounded-full relative transition-colors">
-<div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
-</button>
-</div>
-<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl hover:bg-surface-container transition-colors border border-white/5">
-<div class="flex items-center gap-4">
-<div class="p-2 bg-surface-container-high rounded-lg">
-<span class="material-symbols-outlined text-on-surface-variant" data-icon="visibility">visibility</span>
-</div>
-<div>
-<p class="text-sm font-semibold">Display Activity Status</p>
-<p class="text-xs text-on-surface-variant">Show what game or app you're currently using</p>
-</div>
-</div>
-<button class="w-12 h-6 bg-surface-container-highest rounded-full relative transition-colors">
-<div class="absolute left-1 top-1 w-4 h-4 bg-outline-variant rounded-full"></div>
-</button>
-</div>
-</div>
-</div>
-</section>
-<!-- Footer Info -->
-<footer class="pt-10 pb-20 border-t border-outline-variant/10 text-center">
-<p class="text-[10px] text-on-surface-variant uppercase tracking-[0.2em] font-medium">HaVoC Community v4.2.0-Alpha</p>
-<p class="text-xs text-on-surface-variant/40 mt-2">All rights reserved. Digital Lounge Environment.</p>
-</footer>
-</div>
-</main>
-</body></html>
+<body class="bg-[#0c0e11] min-h-screen text-white flex">
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-64 bg-[#111417] border-r border-[#23262a] flex flex-col h-screen fixed left-0 top-0">
+        <div class="p-6 border-b border-[#23262a]">
+            <button onclick="goBack()" class="flex items-center gap-2 text-[#aaabaf] hover:text-white transition-colors mb-4">
+                <span class="material-symbols-outlined">arrow_back</span>
+                <span class="font-medium">Powrót</span>
+            </button>
+            <h1 class="text-xl font-bold">Ustawienia</h1>
+        </div>
+        
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <button onclick="showTab('profile')" id="tab-profile" class="tab-btn tab-active w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all">
+                <span class="material-symbols-outlined">person</span>
+                Mój profil
+            </button>
+            <button onclick="showTab('notifications')" id="tab-notifications" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-[#aaabaf] hover:text-white hover:bg-[#1d2024] transition-all">
+                <span class="material-symbols-outlined">notifications</span>
+                Powiadomienia
+            </button>
+            <button onclick="showTab('appearance')" id="tab-appearance" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-[#aaabaf] hover:text-white hover:bg-[#1d2024] transition-all">
+                <span class="material-symbols-outlined">palette</span>
+                Wygląd
+            </button>
+            <button onclick="showTab('voice')" id="tab-voice" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-[#aaabaf] hover:text-white hover:bg-[#1d2024] transition-all">
+                <span class="material-symbols-outlined">mic</span>
+                Głos i wideo
+            </button>
+            <button onclick="showTab('language')" id="tab-language" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-[#aaabaf] hover:text-white hover:bg-[#1d2024] transition-all">
+                <span class="material-symbols-outlined">language</span>
+                Język
+            </button>
+            <button onclick="showTab('windows')" id="tab-windows" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-[#aaabaf] hover:text-white hover:bg-[#1d2024] transition-all">
+                <span class="material-symbols-outlined">desktop_windows</span>
+                Windows
+            </button>
+            
+            <div class="border-t border-[#23262a] my-4"></div>
+            
+            <button onclick="showTab('security')" id="tab-security" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-[#aaabaf] hover:text-white hover:bg-[#1d2024] transition-all">
+                <span class="material-symbols-outlined">security</span>
+                Bezpieczeństwo
+            </button>
+            <button onclick="showTab('danger')" id="tab-danger" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all">
+                <span class="material-symbols-outlined">warning</span>
+                Strefa niebezpieczna
+            </button>
+        </nav>
+        
+        <div class="p-4 border-t border-[#23262a]">
+            <button onclick="logout()" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-red-400 hover:bg-red-900/20 transition-all">
+                <span class="material-symbols-outlined">logout</span>
+                Wyloguj się
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 ml-64 p-8 overflow-y-auto h-screen">
+        <div class="max-w-3xl mx-auto">
+
+            <!-- PROFILE TAB -->
+            <div id="content-profile" class="tab-content">
+                <h2 class="text-2xl font-bold mb-8">Mój profil</h2>
+                
+                <!-- Avatar Section -->
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] mb-6 glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#b6a0ff]">account_circle</span>
+                        Zdjęcie profilowe
+                    </h3>
+                    
+                    <div class="flex items-center gap-6">
+                        <div class="relative avatar-upload cursor-pointer" onclick="document.getElementById('avatarInput').click()">
+                            <img id="avatarPreview" src="" alt="Avatar" 
+                                class="w-24 h-24 rounded-full object-cover border-4 border-[#b6a0ff] bg-[#23262a]">
+                            <div class="avatar-overlay absolute inset-0 bg-black/60 rounded-full flex items-center justify-center opacity-0 transition-opacity">
+                                <span class="material-symbols-outlined text-white text-3xl">photo_camera</span>
+                            </div>
+                            <input type="file" id="avatarInput" accept="image/*" class="hidden" onchange="uploadAvatar(event)">
+                        </div>
+                        
+                        <div class="flex-1">
+                            <p class="text-[#aaabaf] text-sm mb-3">Kliknij na zdjęcie aby zmienić avatar. Max 2MB.</p>
+                            <button onclick="removeAvatar()" class="text-red-400 text-sm hover:text-red-300 transition-colors flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">delete</span>
+                                Usuń avatar
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Status Section -->
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] mb-6 glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#00d4ec]">circle</span>
+                        Status
+                    </h3>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="setStatus('online')" id="status-online"
+                            class="status-btn flex items-center gap-3 p-4 rounded-xl border border-[#23262a] hover:border-[#b6a0ff] transition-all">
+                            <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                            <span>Online</span>
+                        </button>
+                        <button onclick="setStatus('idle')" id="status-idle"
+                            class="status-btn flex items-center gap-3 p-4 rounded-xl border border-[#23262a] hover:border-[#b6a0ff] transition-all">
+                            <div class="w-4 h-4 rounded-full bg-yellow-500"></div>
+                            <span>Zaraz wracam</span>
+                        </button>
+                        <button onclick="setStatus('dnd')" id="status-dnd"
+                            class="status-btn flex items-center gap-3 p-4 rounded-xl border border-[#23262a] hover:border-[#b6a0ff] transition-all">
+                            <div class="w-4 h-4 rounded-full bg-red-500"></div>
+                            <span>Nie przeszkadzać</span>
+                        </button>
+                        <button onclick="setStatus('offline')" id="status-offline"
+                            class="status-btn flex items-center gap-3 p-4 rounded-xl border border-[#23262a] hover:border-[#b6a0ff] transition-all">
+                            <div class="w-4 h-4 rounded-full bg-gray-500"></div>
+                            <span>Niewidoczny</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Profile Info -->
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#b6a0ff]">badge</span>
+                        Informacje o profilu
+                    </h3>
+                    
+                    <form id="profileForm" class="space-y-5">
+                        <div>
+                            <label class="block text-[#aaabaf] text-sm font-medium mb-2">Nazwa użytkownika</label>
+                            <input type="text" id="username" 
+                                class="w-full bg-[#0c0e11] border border-[#23262a] rounded-xl px-4 py-3 text-white focus:border-[#b6a0ff] focus:outline-none input-glow transition-all"
+                                placeholder="TwójNick">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-[#aaabaf] text-sm font-medium mb-2">Bio</label>
+                            <textarea id="bio" rows="3"
+                                class="w-full bg-[#0c0e11] border border-[#23262a] rounded-xl px-4 py-3 text-white focus:border-[#b6a0ff] focus:outline-none input-glow transition-all resize-none"
+                                placeholder="Napisz coś o sobie..."></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-[#aaabaf] text-sm font-medium mb-2">Numer telefonu</label>
+                            <input type="tel" id="phone" 
+                                class="w-full bg-[#0c0e11] border border-[#23262a] rounded-xl px-4 py-3 text-white focus:border-[#b6a0ff] focus:outline-none input-glow transition-all"
+                                placeholder="+48 123 456 789">
+                        </div>
+                        
+                        <button type="submit"
+                            class="w-full py-4 bg-gradient-to-r from-[#b6a0ff] to-[#7e51ff] rounded-xl font-bold text-white hover:opacity-90 transition-all">
+                            Zapisz zmiany
+                        </button>
+                    </form>
+                </section>
+            </div>
+
+            <!-- NOTIFICATIONS TAB -->
+            <div id="content-notifications" class="tab-content hidden">
+                <h2 class="text-2xl font-bold mb-8">Powiadomienia</h2>
+                
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] mb-6 glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#b6a0ff]">notifications_active</span>
+                        Ogólne
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium">Włącz powiadomienia</p>
+                                <p class="text-sm text-[#aaabaf]">Otrzymuj powiadomienia push</p>
+                            </div>
+                            <input type="checkbox" id="notif-enabled" class="toggle-checkbox" onchange="saveSettings()">
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium">Dźwięki powiadomień</p>
+                                <p class="text-sm text-[#aaabaf]">Odtwarzaj dźwięk przy nowej wiadomości</p>
+                            </div>
+                            <input type="checkbox" id="notif-sound" class="toggle-checkbox" onchange="saveSettings()">
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#00d4ec]">chat</span>
+                        Wiadomości
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium">Wszystkie wiadomości</p>
+                                <p class="text-sm text-[#aaabaf]">Powiadomienia o każdej nowej wiadomości</p>
+                            </div>
+                            <input type="checkbox" id="notif-messages" class="toggle-checkbox" onchange="saveSettings()">
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium">Tylko wzmianki</p>
+                                <p class="text-sm text-[#aaabaf]">Powiadomienia gdy ktoś Cię oznaczy</p>
+                            </div>
+                            <input type="checkbox" id="notif-mentions" class="toggle-checkbox" onchange="saveSettings()">
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- APPEARANCE TAB -->
+            <div id="content-appearance" class="tab-content hidden">
+                <h2 class="text-2xl font-bold mb-8">Wygląd</h2>
+                
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] mb-6 glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#b6a0ff]">dark_mode</span>
+                        Motyw
+                    </h3>
+                    
+                    <div class="grid grid-cols-3 gap-4">
+                        <button onclick="setTheme('dark')" id="theme-dark"
+                            class="theme-btn p-4 rounded-xl border-2 border-[#b6a0ff] bg-[#0c0e11] transition-all">
+                            <div class="w-full h-20 rounded-lg bg-[#0c0e11] border border-[#23262a] mb-3"></div>
+                            <p class="font-medium">Ciemny</p>
+                        </button>
+                        <button onclick="setTheme('light')" id="theme-light"
+                            class="theme-btn p-4 rounded-xl border-2 border-[#23262a] bg-[#0c0e11] transition-all hover:border-[#b6a0ff]">
+                            <div class="w-full h-20 rounded-lg bg-[#f0f0f0] border border-[#ddd] mb-3"></div>
+                            <p class="font-medium">Jasny</p>
+                        </button>
+                        <button onclick="setTheme('oled')" id="theme-oled"
+                            class="theme-btn p-4 rounded-xl border-2 border-[#23262a] bg-[#0c0e11] transition-all hover:border-[#b6a0ff]">
+                            <div class="w-full h-20 rounded-lg bg-black border border-[#23262a] mb-3"></div>
+                            <p class="font-medium">OLED</p>
+                        </button>
+                    </div>
+                </section>
+                
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] mb-6 glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#ff96bb]">colorize</span>
+                        Kolor akcentu
+                    </h3>
+                    
+                    <div class="flex gap-4 flex-wrap">
+                        <button onclick="setAccentColor('#b6a0ff')" class="color-option w-12 h-12 rounded-full bg-[#b6a0ff] border-4 border-transparent hover:scale-110 transition-all"></button>
+                        <button onclick="setAccentColor('#00d4ec')" class="color-option w-12 h-12 rounded-full bg-[#00d4ec] border-4 border-transparent hover:scale-110 transition-all"></button>
+                        <button onclick="setAccentColor('#ff96bb')" class="color-option w-12 h-12 rounded-full bg-[#ff96bb] border-4 border-transparent hover:scale-110 transition-all"></button>
+                        <button onclick="setAccentColor('#00ff88')" class="color-option w-12 h-12 rounded-full bg-[#00ff88] border-4 border-transparent hover:scale-110 transition-all"></button>
+                        <button onclick="setAccentColor('#ff6b6b')" class="color-option w-12 h-12 rounded-full bg-[#ff6b6b] border-4 border-transparent hover:scale-110 transition-all"></button>
+                        <button onclick="setAccentColor('#ffd93d')" class="color-option w-12 h-12 rounded-full bg-[#ffd93d] border-4 border-transparent hover:scale-110 transition-all"></button>
+                    </div>
+                </section>
+                
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#00d4ec]">text_fields</span>
+                        Tekst
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-[#aaabaf] text-sm font-medium mb-3">Rozmiar czcionki</label>
+                            <div class="flex gap-3">
+                                <button onclick="setFontSize('small')" id="font-small" class="font-btn px-6 py-3 rounded-xl border border-[#23262a] hover:border-[#b6a0ff] transition-all text-sm">Mały</button>
+                                <button onclick="setFontSize('medium')" id="font-medium" class="font-btn px-6 py-3 rounded-xl border-2 border-[#b6a0ff] bg-[#b6a0ff]/10 transition-all">Średni</button>
+                                <button onclick="setFontSize('large')" id="font-large" class="font-btn px-6 py-3 rounded-xl border border-[#23262a] hover:border-[#b6a0ff] transition-all text-lg">Duży</button>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium">Tryb kompaktowy</p>
+                                <p class="text-sm text-[#aaabaf]">Zmniejsza odstępy między wiadomościami</p>
+                            </div>
+                            <input type="checkbox" id="compact-mode" class="toggle-checkbox" onchange="saveSettings()">
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- VOICE TAB -->
+            <div id="content-voice" class="tab-content hidden">
+                <h2 class="text-2xl font-bold mb-8">Głos i wideo</h2>
+                
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] mb-6 glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#b6a0ff]">mic</span>
+                        Urządzenie wejściowe
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <select id="input-device" class="w-full bg-[#0c0e11] border border-[#23262a] rounded-xl px-4 py-3 text-white focus:border-[#b6a0ff] focus:outline-none" onchange="saveSettings()">
+                            <option value="default">Domyślny mikrofon</option>
+                        </select>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label class="text-[#aaabaf] text-sm">Głośność wejścia</label>
+                                <span id="input-volume-value" class="text-sm text-[#b6a0ff]">100%</span>
+                            </div>
+                            <input type="range" id="input-volume" min="0" max="100" value="100" class="w-full" oninput="updateVolumeLabel('input')">
+                        </div>
+                        
+                        <button onclick="testMicrophone()" class="px-6 py-3 bg-[#1d2024] rounded-xl hover:bg-[#23262a] transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined">settings_voice</span>
+                            Testuj mikrofon
+                        </button>
+                    </div>
+                </section>
+                
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] mb-6 glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#00d4ec]">volume_up</span>
+                        Urządzenie wyjściowe
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <select id="output-device" class="w-full bg-[#0c0e11] border border-[#23262a] rounded-xl px-4 py-3 text-white focus:border-[#b6a0ff] focus:outline-none" onchange="saveSettings()">
+                            <option value="default">Domyślne głośniki</option>
+                        </select>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label class="text-[#aaabaf] text-sm">Głośność wyjścia</label>
+                                <span id="output-volume-value" class="text-sm text-[#b6a0ff]">100%</span>
+                            </div>
+                            <input type="range" id="output-volume" min="0" max="100" value="100" class="w-full" oninput="updateVolumeLabel('output')">
+                        </div>
+                        
+                        <button onclick="testSpeakers()" class="px-6 py-3 bg-[#1d2024] rounded-xl hover:bg-[#23262a] transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined">play_circle</span>
+                            Testuj głośniki
+                        </button>
+                    </div>
+                </section>
+                
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#ff96bb]">videocam</span>
+                        Kamera
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <select id="camera-device" class="w-full bg-[#0c0e11] border border-[#23262a] rounded-xl px-4 py-3 text-white focus:border-[#b6a0ff] focus:outline-none" onchange="saveSettings()">
+                            <option value="default">Domyślna kamera</option>
+                        </select>
+                        
+                        <div class="aspect-video bg-[#0c0e11] rounded-xl border border-[#23262a] flex items-center justify-center">
+                            <video id="camera-preview" class="w-full h-full rounded-xl object-cover hidden"></video>
+                            <div id="camera-placeholder" class="text-[#aaabaf] flex flex-col items-center gap-2">
+                                <span class="material-symbols-outlined text-4xl">videocam_off</span>
+                                <p>Podgląd kamery wyłączony</p>
+                            </div>
+                        </div>
+                        
+                        <button onclick="toggleCameraPreview()" id="camera-toggle-btn" class="px-6 py-3 bg-[#1d2024] rounded-xl hover:bg-[#23262a] transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined">visibility</span>
+                            Pokaż podgląd
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- LANGUAGE TAB -->
+            <div id="content-language" class="tab-content hidden">
+                <h2 class="text-2xl font-bold mb-8">Język</h2>
+                
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#b6a0ff]">translate</span>
+                        Język interfejsu
+                    </h3>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="setLanguage('pl')" id="lang-pl"
+                            class="lang-btn flex items-center gap-3 p-4 rounded-xl border-2 border-[#b6a0ff] bg-[#b6a0ff]/10 transition-all">
+                            <span class="text-2xl">🇵🇱</span>
+                            <span class="font-medium">Polski</span>
+                        </button>
+                        <button onclick="setLanguage('en')" id="lang-en"
+                            class="lang-btn flex items-center gap-3 p-4 rounded-xl border border-[#23262a] hover:border-[#b6a0ff] transition-all">
+                            <span class="text-2xl">🇬🇧</span>
+                            <span class="font-medium">English</span>
+                        </button>
+                        <button onclick="setLanguage('de')" id="lang-de"
+                            class="lang-btn flex items-center gap-3 p-4 rounded-xl border border-[#23262a] hover:border-[#b6a0ff] transition-all">
+                            <span class="text-2xl">🇩🇪</span>
+                            <span class="font-medium">Deutsch</span>
+                        </button>
+                        <button onclick="setLanguage('es')" id="lang-es"
+                            class="lang-btn flex items-center gap-3 p-4 rounded-xl border border-[#23262a] hover:border-[#b6a0ff] transition-all">
+                            <span class="text-2xl">🇪🇸</span>
+                            <span class="font-medium">Español</span>
+                        </button>
+                        <button onclick="setLanguage('fr')" id="lang-fr"
+                            class="lang-btn flex items-center gap-3 p-4 rounded-xl border border-[#23262a] hover:border-[#b6a0ff] transition-all">
+                            <span class="text-2xl">🇫🇷</span>
+                            <span class="font-medium">Français</span>
+                        </button>
+                        <button onclick="setLanguage('uk')" id="lang-uk"
+                            class="lang-btn flex items-center gap-3 p-4 rounded-xl border border-[#23262a] hover:border-[#b6a0ff] transition-all">
+                            <span class="text-2xl">🇺🇦</span>
+                            <span class="font-medium">Українська</span>
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- WINDOWS TAB -->
+            <div id="content-windows" class="tab-content hidden">
+                <h2 class="text-2xl font-bold mb-8">Ustawienia Windows</h2>
+                
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] mb-6 glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#b6a0ff]">power_settings_new</span>
+                        Uruchamianie
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium">Uruchom przy starcie Windows</p>
+                                <p class="text-sm text-[#aaabaf]">Aplikacja uruchomi się automatycznie</p>
+                            </div>
+                            <input type="checkbox" id="start-on-boot" class="toggle-checkbox" onchange="saveSettings()">
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium">Uruchom zminimalizowany</p>
+                                <p class="text-sm text-[#aaabaf]">Aplikacja uruchomi się w tle</p>
+                            </div>
+                            <input type="checkbox" id="start-minimized" class="toggle-checkbox" onchange="saveSettings()">
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#00d4ec]">dock_to_bottom</span>
+                        Zachowanie okna
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium">Minimalizuj do zasobnika</p>
+                                <p class="text-sm text-[#aaabaf]">Po zminimalizowaniu ikona pojawi się przy zegarze</p>
+                            </div>
+                            <input type="checkbox" id="minimize-to-tray" class="toggle-checkbox" onchange="saveSettings()">
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium">Zamknij do zasobnika</p>
+                                <p class="text-sm text-[#aaabaf]">Przycisk X zminimalizuje zamiast zamknąć</p>
+                            </div>
+                            <input type="checkbox" id="close-to-tray" class="toggle-checkbox" onchange="saveSettings()">
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SECURITY TAB -->
+            <div id="content-security" class="tab-content hidden">
+                <h2 class="text-2xl font-bold mb-8">Bezpieczeństwo</h2>
+                
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] mb-6 glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#00d4ec]">mail</span>
+                        Adres email
+                    </h3>
+                    
+                    <form id="emailForm" class="space-y-5">
+                        <div>
+                            <label class="block text-[#aaabaf] text-sm font-medium mb-2">Aktualny email</label>
+                            <input type="email" id="currentEmail" disabled
+                                class="w-full bg-[#0c0e11] border border-[#23262a] rounded-xl px-4 py-3 text-[#aaabaf] cursor-not-allowed">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-[#aaabaf] text-sm font-medium mb-2">Nowy email</label>
+                            <input type="email" id="newEmail" 
+                                class="w-full bg-[#0c0e11] border border-[#23262a] rounded-xl px-4 py-3 text-white focus:border-[#b6a0ff] focus:outline-none input-glow transition-all"
+                                placeholder="nowy@email.com">
+                        </div>
+                        
+                        <button type="submit"
+                            class="w-full py-4 bg-[#00d4ec] rounded-xl font-bold text-black hover:opacity-90 transition-all">
+                            Zmień email
+                        </button>
+                    </form>
+                </section>
+                
+                <section class="bg-[#111417] rounded-2xl p-6 border border-[#23262a] glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[#ff96bb]">lock</span>
+                        Zmiana hasła
+                    </h3>
+                    
+                    <form id="passwordForm" class="space-y-5">
+                        <div>
+                            <label class="block text-[#aaabaf] text-sm font-medium mb-2">Nowe hasło</label>
+                            <input type="password" id="newPassword" minlength="6"
+                                class="w-full bg-[#0c0e11] border border-[#23262a] rounded-xl px-4 py-3 text-white focus:border-[#b6a0ff] focus:outline-none input-glow transition-all"
+                                placeholder="Min. 6 znaków">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-[#aaabaf] text-sm font-medium mb-2">Powtórz nowe hasło</label>
+                            <input type="password" id="confirmPassword" minlength="6"
+                                class="w-full bg-[#0c0e11] border border-[#23262a] rounded-xl px-4 py-3 text-white focus:border-[#b6a0ff] focus:outline-none input-glow transition-all"
+                                placeholder="Powtórz hasło">
+                        </div>
+                        
+                        <button type="submit"
+                            class="w-full py-4 bg-[#ff96bb] rounded-xl font-bold text-black hover:opacity-90 transition-all">
+                            Zmień hasło
+                        </button>
+                    </form>
+                </section>
+            </div>
+
+            <!-- DANGER TAB -->
+            <div id="content-danger" class="tab-content hidden">
+                <h2 class="text-2xl font-bold mb-8 text-red-400">Strefa niebezpieczna</h2>
+                
+                <section class="bg-[#1a1012] rounded-2xl p-6 border border-red-900/50 glow">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2 text-red-400">
+                        <span class="material-symbols-outlined">warning</span>
+                        Usuń konto
+                    </h3>
+                    
+                    <p class="text-[#aaabaf] text-sm mb-6">
+                        Usunięcie konta jest <strong class="text-red-400">nieodwracalne</strong>. Wszystkie Twoje dane, wiadomości i pliki zostaną trwale usunięte.
+                    </p>
+                    
+                    <button onclick="deleteAccount()"
+                        class="w-full py-4 bg-red-600 rounded-xl font-bold text-white hover:bg-red-700 transition-all">
+                        Usuń konto na zawsze
+                    </button>
+                </section>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-[#111417] border border-[#23262a] rounded-xl px-6 py-4 shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <p id="toastMessage" class="text-white font-medium"></p>
+    </div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase config
+        const SUPABASE_URL = 'https://pykkeknmtalulktajcgb.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5a2tla25tdGFsdWxrdGFqY2diIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NjI0NzIsImV4cCI6MjA5MTEzODQ3Mn0.q22LJBe6yZ2so0-0KXY_EBfsN68lzaxUDXpXo1prwUw';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: {
+        persistSession: true,
+        storageKey: 'havoc-auth',
+        storage: window.localStorage,
+        autoRefreshToken: true,
+        detectSessionInUrl: false
+    }
+});
+
+        let currentUser = null;
+        let currentProfile = null;
+        let settings = {};
+
+        // ===== TAB NAVIGATION =====
+        function showTab(tabName) {
+            // Hide all content
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // Show selected content
+            document.getElementById('content-' + tabName).classList.remove('hidden');
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('text-[#aaabaf]');
+            });
+            const activeBtn = document.getElementById('tab-' + tabName);
+            activeBtn.classList.add('tab-active');
+            activeBtn.classList.remove('text-[#aaabaf]');
+        }
+
+        // ===== AUTH =====
+        async function checkAuth() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) {
+                window.location.href = 'login.html';
+                return;
+            }
+            currentUser = session.user;
+            await loadProfile();
+            await loadDevices();
+        }
+
+        async function loadProfile() {
+            const { data: profile } = await supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('id', currentUser.id)
+                .single();
+            
+            currentProfile = profile;
+            settings = profile?.settings || {};
+            
+            // Fill profile form
+            document.getElementById('username').value = profile?.username || '';
+            document.getElementById('bio').value = profile?.bio || '';
+            document.getElementById('phone').value = profile?.phone || '';
+            document.getElementById('currentEmail').value = currentUser.email;
+            
+            // Avatar
+            if (profile?.avatar_url) {
+                document.getElementById('avatarPreview').src = profile.avatar_url;
+            } else {
+                document.getElementById('avatarPreview').src = `https://ui-avatars.com/api/?name=${profile?.username || 'U'}&background=b6a0ff&color=fff&size=200`;
+            }
+            
+            // Status
+            if (profile?.status) {
+                setStatusUI(profile.status);
+            }
+            
+            // Load settings UI
+            loadSettingsUI();
+        }
+
+        function loadSettingsUI() {
+            // Notifications
+            document.getElementById('notif-enabled').checked = settings.notifications?.enabled ?? true;
+            document.getElementById('notif-sound').checked = settings.notifications?.sound ?? true;
+            document.getElementById('notif-messages').checked = settings.notifications?.messages ?? true;
+            document.getElementById('notif-mentions').checked = settings.notifications?.mentions ?? true;
+            
+            // Appearance
+            if (settings.appearance?.theme) setThemeUI(settings.appearance.theme);
+            if (settings.appearance?.fontSize) setFontSizeUI(settings.appearance.fontSize);
+            document.getElementById('compact-mode').checked = settings.appearance?.compactMode ?? false;
+            
+            // Voice
+            document.getElementById('input-volume').value = settings.voice?.inputVolume ?? 100;
+            document.getElementById('output-volume').value = settings.voice?.outputVolume ?? 100;
+            updateVolumeLabel('input');
+            updateVolumeLabel('output');
+            
+            // Language
+            if (settings.language) setLanguageUI(settings.language);
+            
+            // Windows
+            document.getElementById('start-on-boot').checked = settings.windows?.startOnBoot ?? false;
+            document.getElementById('start-minimized').checked = settings.windows?.startMinimized ?? false;
+            document.getElementById('minimize-to-tray').checked = settings.windows?.minimizeToTray ?? true;
+            document.getElementById('close-to-tray').checked = settings.windows?.closeToTray ?? false;
+        }
+
+        async function saveSettings() {
+            settings = {
+                notifications: {
+                    enabled: document.getElementById('notif-enabled').checked,
+                    sound: document.getElementById('notif-sound').checked,
+                    messages: document.getElementById('notif-messages').checked,
+                    mentions: document.getElementById('notif-mentions').checked
+                },
+                appearance: {
+                    theme: settings.appearance?.theme || 'dark',
+                    accentColor: settings.appearance?.accentColor || '#b6a0ff',
+                    fontSize: settings.appearance?.fontSize || 'medium',
+                    compactMode: document.getElementById('compact-mode').checked
+                },
+                voice: {
+                    inputDevice: document.getElementById('input-device').value,
+                    outputDevice: document.getElementById('output-device').value,
+                    inputVolume: parseInt(document.getElementById('input-volume').value),
+                    outputVolume: parseInt(document.getElementById('output-volume').value)
+                },
+                language: settings.language || 'pl',
+                windows: {
+                    startOnBoot: document.getElementById('start-on-boot').checked,
+                    startMinimized: document.getElementById('start-minimized').checked,
+                    minimizeToTray: document.getElementById('minimize-to-tray').checked,
+                    closeToTray: document.getElementById('close-to-tray').checked
+                }
+            };
+            
+            await supabaseClient
+                .from('profiles')
+                .update({ settings: settings, updated_at: new Date() })
+                .eq('id', currentUser.id);
+            
+            // Save to localStorage for quick access
+            localStorage.setItem('havoc-settings', JSON.stringify(settings));
+        }
+
+        // ===== AVATAR =====
+        async function uploadAvatar(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (file.size > 2 * 1024 * 1024) {
+                showToast('Plik jest za duży! Max 2MB', true);
+                return;
+            }
+            
+            showToast('Przesyłanie...');
+            
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${currentUser.id}/avatar.${fileExt}`;
+            
+            await supabaseClient.storage.from('avatars').remove([`${currentUser.id}/avatar.png`, `${currentUser.id}/avatar.jpg`, `${currentUser.id}/avatar.gif`]);
+            
+            const { error } = await supabaseClient.storage
+                .from('avatars')
+                .upload(fileName, file, { upsert: true });
+            
+            if (error) {
+                showToast('Błąd uploadu: ' + error.message, true);
+                return;
+            }
+            
+            const { data: urlData } = supabaseClient.storage.from('avatars').getPublicUrl(fileName);
+            const avatarUrl = urlData.publicUrl + '?t=' + Date.now();
+            
+            await supabaseClient
+                .from('profiles')
+                .update({ avatar_url: avatarUrl, updated_at: new Date() })
+                .eq('id', currentUser.id);
+            
+            document.getElementById('avatarPreview').src = avatarUrl;
+            showToast('Avatar zaktualizowany! ✅');
+        }
+
+        async function removeAvatar() {
+            if (!confirm('Czy na pewno chcesz usunąć avatar?')) return;
+            
+            await supabaseClient.storage.from('avatars').remove([`${currentUser.id}/avatar.png`, `${currentUser.id}/avatar.jpg`, `${currentUser.id}/avatar.gif`]);
+            
+            await supabaseClient
+                .from('profiles')
+                .update({ avatar_url: null, updated_at: new Date() })
+                .eq('id', currentUser.id);
+            
+            document.getElementById('avatarPreview').src = `https://ui-avatars.com/api/?name=${currentProfile?.username || 'U'}&background=b6a0ff&color=fff&size=200`;
+            showToast('Avatar usunięty');
+        }
+
+        // ===== STATUS =====
+        async function setStatus(status) {
+            await supabaseClient
+                .from('profiles')
+                .update({ status: status, updated_at: new Date() })
+                .eq('id', currentUser.id);
+            
+            setStatusUI(status);
+            showToast('Status zmieniony! ✅');
+        }
+
+        function setStatusUI(status) {
+            document.querySelectorAll('.status-btn').forEach(btn => {
+                btn.classList.remove('border-[#b6a0ff]', 'bg-[#b6a0ff]/10');
+                btn.classList.add('border-[#23262a]');
+            });
+            
+            const activeBtn = document.getElementById('status-' + status);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-[#23262a]');
+                activeBtn.classList.add('border-[#b6a0ff]', 'bg-[#b6a0ff]/10');
+            }
+        }
+
+        // ===== APPEARANCE =====
+        function setTheme(theme) {
+            settings.appearance = settings.appearance || {};
+            settings.appearance.theme = theme;
+            setThemeUI(theme);
+            saveSettings();
+            showToast('Motyw zmieniony! ✅');
+        }
+
+        function setThemeUI(theme) {
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('border-[#b6a0ff]');
+                btn.classList.add('border-[#23262a]');
+            });
+            document.getElementById('theme-' + theme)?.classList.remove('border-[#23262a]');
+            document.getElementById('theme-' + theme)?.classList.add('border-[#b6a0ff]');
+        }
+
+        function setAccentColor(color) {
+            settings.appearance = settings.appearance || {};
+            settings.appearance.accentColor = color;
+            saveSettings();
+            showToast('Kolor akcentu zmieniony! ✅');
+        }
+
+        function setFontSize(size) {
+            settings.appearance = settings.appearance || {};
+            settings.appearance.fontSize = size;
+            setFontSizeUI(size);
+            saveSettings();
+            showToast('Rozmiar czcionki zmieniony! ✅');
+        }
+
+        function setFontSizeUI(size) {
+            document.querySelectorAll('.font-btn').forEach(btn => {
+                btn.classList.remove('border-[#b6a0ff]', 'border-2', 'bg-[#b6a0ff]/10');
+                btn.classList.add('border-[#23262a]', 'border');
+            });
+            const btn = document.getElementById('font-' + size);
+            if (btn) {
+                btn.classList.remove('border-[#23262a]', 'border');
+                btn.classList.add('border-[#b6a0ff]', 'border-2', 'bg-[#b6a0ff]/10');
+            }
+        }
+
+        // ===== LANGUAGE =====
+        function setLanguage(lang) {
+            settings.language = lang;
+            setLanguageUI(lang);
+            saveSettings();
+            showToast('Język zmieniony! ✅');
+        }
+
+        function setLanguageUI(lang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('border-[#b6a0ff]', 'border-2', 'bg-[#b6a0ff]/10');
+                btn.classList.add('border-[#23262a]', 'border');
+            });
+            const btn = document.getElementById('lang-' + lang);
+            if (btn) {
+                btn.classList.remove('border-[#23262a]', 'border');
+                btn.classList.add('border-[#b6a0ff]', 'border-2', 'bg-[#b6a0ff]/10');
+            }
+        }
+
+        // ===== VOICE =====
+        async function loadDevices() {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                
+                const inputSelect = document.getElementById('input-device');
+                const outputSelect = document.getElementById('output-device');
+                const cameraSelect = document.getElementById('camera-device');
+                
+                devices.forEach(device => {
+                    const option = document.createElement('option');
+                    option.value = device.deviceId;
+                    option.text = device.label || `${device.kind} ${device.deviceId.slice(0, 8)}`;
+                    
+                    if (device.kind === 'audioinput') {
+                        inputSelect.appendChild(option);
+                    } else if (device.kind === 'audiooutput') {
+                        outputSelect.appendChild(option);
+                    } else if (device.kind === 'videoinput') {
+                        cameraSelect.appendChild(option);
+                    }
+                });
+            } catch (err) {
+                console.log('Cannot enumerate devices:', err);
+            }
+        }
+
+        function updateVolumeLabel(type) {
+            const value = document.getElementById(type + '-volume').value;
+            document.getElementById(type + '-volume-value').textContent = value + '%';
+        }
+
+        function testMicrophone() {
+            showToast('Test mikrofonu... 🎤');
+            // Tu można dodać rzeczywiste nagrywanie
+        }
+
+        function testSpeakers() {
+            showToast('Test głośników... 🔊');
+            // Tu można odtworzyć dźwięk testowy
+        }
+
+        let cameraStream = null;
+        async function toggleCameraPreview() {
+            const video = document.getElementById('camera-preview');
+            const placeholder = document.getElementById('camera-placeholder');
+            const btn = document.getElementById('camera-toggle-btn');
+            
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+                video.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+                btn.innerHTML = '<span class="material-symbols-outlined">visibility</span> Pokaż podgląd';
+            } else {
+                try {
+                    cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    video.srcObject = cameraStream;
+                    video.play();
+                    video.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                    btn.innerHTML = '<span class="material-symbols-outlined">visibility_off</span> Ukryj podgląd';
+                } catch (err) {
+                    showToast('Nie można uzyskać dostępu do kamery', true);
+                }
+            }
+        }
+
+        // ===== FORMS =====
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const bio = document.getElementById('bio').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            
+            if (!username) {
+                showToast('Nazwa użytkownika nie może być pusta!', true);
+                return;
+            }
+            
+            const { error } = await supabaseClient
+                .from('profiles')
+                .update({ username, bio, phone, updated_at: new Date() })
+                .eq('id', currentUser.id);
+            
+            if (error) {
+                showToast('Błąd: ' + error.message, true);
+            } else {
+                showToast('Profil zaktualizowany! ✅');
+            }
+        });
+
+        document.getElementById('emailForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newEmail = document.getElementById('newEmail').value.trim();
+            
+            if (!newEmail) {
+                showToast('Wpisz nowy email!', true);
+                return;
+            }
+            
+            const { error } = await supabaseClient.auth.updateUser({ email: newEmail });
+            
+            if (error) {
+                showToast('Błąd: ' + error.message, true);
+            } else {
+                showToast('Sprawdź skrzynkę email! 📧');
+                document.getElementById('newEmail').value = '';
+            }
+        });
+
+        document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (newPassword.length < 6) {
+                showToast('Hasło musi mieć min. 6 znaków!', true);
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showToast('Hasła nie są takie same!', true);
+                return;
+            }
+            
+            const { error } = await supabaseClient.auth.updateUser({ password: newPassword });
+            
+            if (error) {
+                showToast('Błąd: ' + error.message, true);
+            } else {
+                showToast('Hasło zmienione! ✅');
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+            }
+        });
+
+        // ===== DANGER ZONE =====
+        async function deleteAccount() {
+            const confirmed = confirm('Czy na pewno chcesz usunąć konto? Ta operacja jest NIEODWRACALNA!');
+            if (!confirmed) return;
+            
+            const doubleConfirm = prompt('Wpisz "USUN KONTO" aby potwierdzić:');
+            if (doubleConfirm !== 'USUN KONTO') {
+                showToast('Operacja anulowana');
+                return;
+            }
+            
+            await supabaseClient.from('profiles').delete().eq('id', currentUser.id);
+            await supabaseClient.storage.from('avatars').remove([`${currentUser.id}/avatar.png`, `${currentUser.id}/avatar.jpg`, `${currentUser.id}/avatar.gif`]);
+            await supabaseClient.auth.signOut();
+            
+            showToast('Konto zostało usunięte');
+            setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+        }
+
+        async function logout() {
+            await supabaseClient.auth.signOut();
+            window.location.href = 'login.html';
+        }
+
+        // ===== UTILS =====
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            toast.className = `fixed bottom-6 right-6 rounded-xl px-6 py-4 shadow-2xl transform transition-all duration-300 z-50 ${isError ? 'bg-red-600 border border-red-500' : 'bg-[#111417] border border-[#23262a]'}`;
+            
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // Start
+        checkAuth();
+    </script>
+</body>
+</html>
